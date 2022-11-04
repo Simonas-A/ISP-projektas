@@ -1,46 +1,130 @@
-<!DOCTYPE html>
-<html lang="en">
-<?php
-$server="localhost";
-$user="root";
-$password="";
-$dbname="vartvald";
-$lentele="preke";
 
-$conn = new mysqli($server, $user, $password, $dbname);
-   if ($conn->connect_error) die("Negaliu prisijungti: " . $conn->connect_error);
-mysqli_set_charset($conn,"utf8");// dėl lietuviškų raidžių
-$sql = "SELECT * FROM $lentele ORDER BY id ASC";
-$product_array = mysqli_query($conn, $sql);
-if (!empty($product_array)) { 
-	foreach($product_array as $key=>$value){
-?>
-	<div class="product-item">
-		<form method="post" action="index.php?action=add&code=<?php echo $product_array[$key]["code"]; ?>">
-		<div class="product-image"><img src="<?php echo $product_array[$key]["image"]; ?>"></div>
-		<div class="product-tile-footer">
-		<div class="product-title"><?php echo $product_array[$key]["name"]; ?></div>
-		<div class="product-price"><?php echo "$".$product_array[$key]["price"]; ?></div>
-		<div class="cart-action"><input type="text" class="product-quantity" name="quantity" value="1" size="2" /><input type="submit" value="Add to Cart" class="btnAddAction" /></div>
-		</div>
-		</form>
-	</div>
 <?php
-	}
-}
+    include("prekes_db_connect.php");
+  
+    if (isset($_POST['btn'])) {
+        $pavadinimas=$_POST['pavadinimas'];
+        $q="select * from prekes where pavadinimas='$pavadinimas'";
+        $query=mysqli_query($con,$q);
+    } 
+    else {
+        $q= "select * from prekes";
+        $query=mysqli_query($con,$q);
+    }	if(isset($_POST["btn1"])) {
+			 header("location:index.php");
+	 }
 ?>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>My Website</title>
-    <link rel="stylesheet" href="./style.css">
-    <link rel="icon" href="./favicon.ico" type="image/x-icon">
-  </head>
-  <body>
-    <main>
-        <h1>Welcome to My Website</h1>  
-    </main>
-	<script src="index.js"></script>
-  </body>
+  
+<html>
+  
+<head>
+    <meta http-equiv="Content-Type" 
+        content="text/html; charset=UTF-8">
+  
+    <title>View List</title>
+  
+    <link rel="stylesheet" href=
+"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  
+    <link rel="stylesheet" 
+        href="css/style.css">
+</head>
+  
+<body>
+    <div class="container mt-5">
+          
+        <!-- top -->
+        <div class="row">
+            <div class="col-lg-8">
+                <h1>Prekės</h1>
+                <a href="prideti_preke.php">Pridėti prekę</a>
+            </div>
+            <div class="col-lg-4">
+                <div class="row">
+                    <div class="col-lg-8">
+                          
+                        <!-- Date Filtering-->
+                        <form method="post" action="">
+                            <input type="text" 
+                                class="form-control" 
+                                name="pavadinimas">
+                          
+                            <div class="col-lg-4" 
+                                method="post">
+                                <input type="submit" 
+                                class="btn btn-danger float-right" 
+                                name="btn" value="Iešokti">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+        <!-- Grocery Cards -->
+        <div class="row mt-4">
+            <?php
+                while ($qq=mysqli_fetch_array($query)) 
+                {
+            ?>
+  
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <?php echo $qq['pavadinimas']; ?>
+                        </h5>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            <?php echo 
+                            $qq['kiekis']; ?>
+                        </h6>
+                        <?php
+                        if($qq['statusas'] == 0) {
+                        ?>
+                        <p class="text-info">Laukiama</p>
+  
+                        <?php
+                        } else if($qq['statusas'] == 1) {
+                        ?>
+                        <p class="text-success">Įsigyta</p>
+  
+                        <?php } else { ?>
+                        <p class="text-danger">Nėra parduotuvėje</p>
+  
+                        <?php } ?>
+                        <a href=
+                        "prekes_delete.php?id=<?php echo $qq['id']; ?>" 
+                            class="card-link">
+                            Išimti
+                        </a>
+                        <a href=
+                        "prekes_update.php?id=<?php echo $qq['id']; ?>" 
+                            class="card-link">
+                            Atnaujinti
+                        </a>
+                    </div>
+                </div><br>
+            </div>
+			
+            <?php
+            }
+            ?>
+			            <?php
+	         if(isset($_POST["btn1"])) {
+			 header("location:operacija1.php");
+		 }
+            ?>
+        </div>
+                        <form method="post" action="index.php">
+			<div>
+                <input type="submit" 
+                    value="Grįžti" 
+                    class="btn btn-danger" 
+                    name="btn1">
+            </div>  
+			</form>
+    </div>
+
+</body>
+  
 </html>
