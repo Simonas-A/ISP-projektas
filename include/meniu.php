@@ -16,11 +16,12 @@ $role="";
         echo "</td></tr><tr><td>";
         if ($_SESSION['user'] != "guest") echo "[<a href=\"useredit.php\">Redaguoti paskyrą</a>] &nbsp;&nbsp;";
         echo "[<a href=\"operacija1.php\">Prekės</a>] &nbsp;&nbsp;";
+        echo "[<a href=\"klientu-posisteme/klientai-menu.php\">Klientai</a>] &nbsp;&nbsp;";
         echo "[<a href=\"operacija2.php\">Demo operacija2</a>] &nbsp;&nbsp;";
 	   echo "[<a href=\"operacija3.php\">Demo operacija2</a>] &nbsp;&nbsp;";
 		echo "[<a href=\"operacija4.php\">Demo operacija3</a>] &nbsp;&nbsp;";
      //Trečia operacija tik rodoma pasirinktu kategoriju vartotojams, pvz.:
-        if (($userlevel == $user_roles["Vadovas"]) || ($userlevel == $user_roles[ADMIN_LEVEL] )) {
+        if (($userlevel == $user_roles["Darbuotojas"]) || ($userlevel == $user_roles[ADMIN_LEVEL] )) {
             //echo "[<a href=\"skaitau.php\">Žinutės</a>] &nbsp;&nbsp;";
        		}   
         //Administratoriaus sąsaja rodoma tik administratoriui
