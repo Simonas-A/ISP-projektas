@@ -19,15 +19,15 @@ $role="";
 
         //if ($_SESSION['user'] != "guest") echo "[<a href=\"useredit.php\">Redaguoti paskyrą</a>] &nbsp;&nbsp;";
 
-        echo "[<a href=\"clientedit.php\">Redaguoti paskyrą</a>] &nbsp;&nbsp;";
-        echo "[<a href=\"clientbalance.php\">Sąsakitos likutis</a>] &nbsp;&nbsp;";
-        echo "[<a href=\"clientcommongoods.php\">Perkamiausios prekės</a>] &nbsp;&nbsp;";
-        echo "[<a href=\"clientspentamount.php\">Išleista suma</a>] &nbsp;&nbsp;";
-        echo "[<a href=\"clientshoppinghistory.php\">Apsipirkimų istorija</a>] &nbsp;&nbsp;";
+        echo "[<a href=\"client-edit.php\">Redaguoti paskyrą</a>] &nbsp;&nbsp;";
+        echo "[<a href=\"client-balance.php\">Sąsakitos likutis</a>] &nbsp;&nbsp;";
+        echo "[<a href=\"client-common-goods.php\">Perkamiausios prekės</a>] &nbsp;&nbsp;";
+        echo "[<a href=\"client-spent-amount.php\">Išleista suma</a>] &nbsp;&nbsp;";
+        echo "[<a href=\"client-shopping-history.php\">Apsipirkimų istorija</a>] &nbsp;&nbsp;";
 
         if ($userlevel == $user_roles[ADMIN_LEVEL] ) {
-            echo "[<a href=\"clientlist.php\">Klientų sąrašas</a>] &nbsp;&nbsp;";
-            echo "[<a href=\"clientadd.php?newuser=1\">Pridėti naują klientą</a>] &nbsp;&nbsp;";
+            echo "[<a href=\"client-list.php\">Klientų sąrašas</a>] &nbsp;&nbsp;";
+            echo "[<a href=\"client-add.php?newuser=1\">Pridėti naują klientą</a>] &nbsp;&nbsp;";
             //echo "[<a href=\"admin.php\">Administratoriaus sąsaja</a>] &nbsp;&nbsp;";
         }
         //echo "[<a href=\"logout.php\">Atsijungti</a>]";
