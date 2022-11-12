@@ -2,3 +2,6 @@
 <tr><td width=30%><a href="./klientai-menu.php">[Atgal]</a></td><td width=30%> 
 </table>
 <h1>You can add new client here</h1>
+<?php
+include("client-connect.php");
+?>
