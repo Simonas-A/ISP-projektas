@@ -1,20 +1,34 @@
-<table class="center" style=" width:75%; border-width: 2px; border-style: dotted;">
-<tr><td width=30%><a href="./client-menu.php">[Atgal]</a></td><td width=30%> 
-</table>
-<h1>You can edit client here</h1>
+<?php
+$clientid=$_GET['id'];
+include("client-connect.php");
+$q= "SELECT * FROM users WHERE userid='$clientid'";
+$query=mysqli_query($con,$q);
+$row = mysqli_fetch_array($query);
+?>
 
-<table class="center" style=" width:75%; border-width: 2px; border-style: dotted;">
-<tr><td width=30%><a href="./client-menu.php">[Atgal]</a></td><td width=30%>
-<input type="submit" value="Išsaugoti"></td></tr>
+<table>
+<tr><td width=30%><a href="./client-list.php">[Atgal]</a></td><td width=30%>
 </table>
 
-<h1>Client edit</h1>
-<table class="center" style=" width:75%; border-width: 2px; border-style: dotted;">
-<tr><td width=30%>Vardas:</td><td width=30%><input type="text" name="name" value="<?php echo $name; ?>"></td></tr>
-<tr><td width=30%>Pavardė:</td><td width=30%><input type="text" name="surname" value="<?php echo $surname; ?>"></td></tr>
-<tr><td width=30%>El. paštas:</td><td width=30%><input type="text" name="email" value="<?php echo $email; ?>"></td></tr>
-<tr><td width=30%>Telefonas:</td><td width=30%><input type="text" name="phone" value="<?php echo $phone; ?>"></td></tr>
-<tr><td width=30%>Adresas:</td><td width=30%><input type="text" name="address" value="<?php echo $address; ?>"></td></tr>
-<tr><td width=30%>Komentaras:</td><td width=30%><input type="text" name="comment" value="<?php echo $comment; ?>"></td></tr>
+<form type="post" action="client-edit.php">
+<table>
+<tr><td>Vardas:</td><td><input type="text" name="name" value="<?php echo $row['name']; ?>"></td></tr>
+<tr><td>Pavardė:</td><td><input type="text" name="surname" value="<?php echo $row['surname']; ?>"></td></tr>
+<tr><td>El. paštas:</td><td><input type="text" name="email" value="<?php echo $row['email']; ?>"></td></tr>
+<tr><td>Telefono numeris:</td><td><input type="text" name="phone" value="<?php echo $row['phone']; ?>"></td></tr>
+<tr><td>Kliento id:</td><td><input type="text" readonly name="id" value="<?php echo $row['userid']; ?>"></td></tr>
 </table>
+<input type="submit" value="Redaguoti">
 </form>
+
+<?php
+if($_GET['name']??""!="" && $_GET['surname']??""!="" && $_GET['email']??""!="" && $_GET['phone']??""!=""){
+    $name=$_GET['name'];
+    $surname=$_GET['surname'];
+    $email=$_GET['email'];
+    $phone=$_GET['phone'];
+    $q= "UPDATE users SET name='$name', surname='$surname', email='$email', phone='$phone' WHERE userid='$clientid'";
+    $query=mysqli_query($con,$q);
+    header("Location: client-list.php");
+}
+?>
