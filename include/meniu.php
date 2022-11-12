@@ -20,6 +20,7 @@ $role="";
         echo "[<a href=\"operacija2.php\">Demo operacija2</a>] &nbsp;&nbsp;";
 	   echo "[<a href=\"operacija3.php\">Demo operacija2</a>] &nbsp;&nbsp;";
 		echo "[<a href=\"operacija4.php\">Demo operacija3</a>] &nbsp;&nbsp;";
+        echo "[<a href=\"krepselis.php\">Mano krepšelis</a>] &nbsp;&nbsp;";
      //Trečia operacija tik rodoma pasirinktu kategoriju vartotojams, pvz.:
         if (($userlevel == $user_roles["Darbuotojas"]) || ($userlevel == $user_roles[ADMIN_LEVEL] )) {
             //echo "[<a href=\"skaitau.php\">Žinutės</a>] &nbsp;&nbsp;";

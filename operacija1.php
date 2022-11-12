@@ -102,6 +102,11 @@
                             class="card-link">
                             Atnaujinti
                         </a>
+                        <a href=
+                        "prekes_add_to_cart.php?id=<?php echo $qq['id']; ?>"
+                        class="card-link">
+                        Pridėti į krepšelį
+                        </a>
                     </div>
                 </div><br>
             </div>
