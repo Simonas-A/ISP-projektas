@@ -32,7 +32,7 @@
 	echo "<form method='post' action='".$previous_page.".php' style='display:inline'><input type='submit' value='Grįžti' class='btn btn-danger' name='btn1'></form> &nbsp;&nbsp;";
     echo "</td></tr></table>";
 
-	echo "<center><div class='container mt-5'>";
+	echo "<center><div class='container mt-3'>";
 	echo "<h1 style='text-aling:left'>Užsakymo ID: ".$id." informacijos redagavimas</h1><br>";
 	$dbc= new mysqli("localhost", "stud", "stud", "vartvald");
 	$userid = $_SESSION['userid'];
@@ -84,7 +84,8 @@
 		}
 		echo "</select></div>";
 		
-		echo "<div class='form-group'><label>Pristatymo adresas</label><input type='text' class='form-control' name='adresas' placeholder='Pristatymo adresas' value='".$shippment_information['adresas']."' /></div>";		
+		echo "<div class='form-group'><label>Pristatymo adresas</label><input type='text' class='form-control' name='adresas' placeholder='Pristatymo adresas' value='".$shippment_information['adresas']."' /></div>";	
+		echo "<div class='form-group' style='align:left'><input type='hidden' value='false' name='checkboxas'><input class='form-check-input' type='checkbox' value='true' name='checkboxas' id='checkboxas'/><label class='form-check-label' for='checkboxas'>Išsiųsti žinutę į paštą apie nauja siuntos statusą?</label></div>";	
 	} 
 
 	echo "<div class='form-group'><input type='submit' value='Atnaujinti' name='btn' class='btn btn-danger'></div></form>";
@@ -96,14 +97,25 @@
         $total_price = $_POST['price'];
         $count_of_items = $_POST['count'];
         $payment_type = $_POST['budas'];
-        $purchase_status = $_POST['statusas'];
+        $shippment_status = $_POST['statusas'];
 		$shippment_address = $_POST['adresas'];
+		$checkbox_status = $_POST['checkboxas'];
 
 		$sql_for_purchases = "UPDATE pirkimai SET kaina = '$total_price', prekiu_kiekis = '$count_of_items', fk_apmokejimo_budo_id = '$payment_type' WHERE id = $id";
 		$query = mysqli_query($dbc, $sql_for_purchases);
 
-		$sql_for_shippment = "UPDATE pristatymai SET data = '$datetime', statusas = '$purchase_status', adresas = '$shippment_address' WHERE id = $id";
+		$sql_for_shippment = "UPDATE pristatymai SET data = '$datetime', statusas = '$shippment_status', adresas = '$shippment_address' WHERE id = $id";
         $query=mysqli_query($dbc, $sql_for_shippment);
+
+		$user_qualifies_for_order_was_shipped_mail = $checkbox_status == "true" && $shippment_information['statusas'] == "Užsakyta" && $shippment_status == 2;
+		if($user_qualifies_for_order_was_shipped_mail) {
+			echo "siunciu shipped maila";
+		}
+
+		$user_qualifies_for_order_was_finished_mail = $checkbox_status == "true" && $shippment_information['statusas'] == "Pakeliui" && $shippment_status == 3;
+		if($user_qualifies_for_order_was_finished_mail) {
+			echo "siunciu finished maila";
+		}
 
 		$_SESSION['message'] = 'Sėkmingai atnaujinta';
 		$_SESSION['header'] = 'yes';
