@@ -21,6 +21,14 @@
 	session_start();
 	include "include/nustatymai.php";
 
+	use PHPMailer\PHPMailer\SMTP;
+	use PHPMailer\PHPMailer\PHPMailer;
+	use PHPMailer\PHPMailer\Exception;
+
+	require 'phpmailer/src/Exception.php';
+	require 'phpmailer/src/PHPMailer.php';
+	require 'phpmailer/src/SMTP.php';
+
 	$userlevel=$_SESSION['ulevel'];
 	$previous_page = $_SESSION['prev'];
 
@@ -114,14 +122,61 @@
 		$sql_for_shippment = "UPDATE pristatymai SET data = '$datetime', statusas = '$shippment_status', adresas = '$shippment_address' WHERE id = $id";
         $query=mysqli_query($dbc, $sql_for_shippment);
 
+
+		$sql_owner_of_order = "SELECT * FROM pristatymai WHERE id = $id";
+		$result = mysqli_query($dbc, $sql_owner_of_order);
+		$owner_userid = mysqli_fetch_assoc($result)['fk_vartotojo_id'];
 		$user_qualifies_for_order_was_shipped_mail = $checkbox_status == "true" && $shippment_information['statusas'] == "Užsakyta" && $shippment_status == 2;
 		if($user_qualifies_for_order_was_shipped_mail) {
-			echo "siunciu shipped maila";
+
+			$sql_for_user_email = "SELECT email FROM users WHERE userid = '$owner_userid'";
+			$query_for_email = mysqli_query($dbc, $sql_for_user_email);
+			$email = mysqli_fetch_assoc($query_for_email)['email'];
+			$subject = "Jūsų siunta ID:".$id." buvo išsiūsta";
+			$message = "Issiusta siunta, jau keliauja link jusu";
+
+			$mail = new PHPMailer(true);
+			$mail->IsSMTP();
+			$mail->Host = 'smtp.gmail.com';
+			$mail->SMTPAuth = true;
+			$mail->SMTPOptions = array('ssl' => array('verify_peer' => false, 'verify_peer_name' => false, 'allow_self_signed' => true));
+			$mail->Username = 'vytas.sa1@gmail.com';
+			$mail->Password = 'ruuvicogpbumtksk';
+			$mail->Port = 587;
+
+			$mail->setFrom('vytas.sa1@gmail.com');
+			$mail->addAddress($email);
+			$mail->Subject = $subject;
+			$mail->Body = $message;
+
+			$mail->send();
 		}
 
 		$user_qualifies_for_order_was_finished_mail = $checkbox_status == "true" && $shippment_information['statusas'] == "Pakeliui" && $shippment_status == 3;
 		if($user_qualifies_for_order_was_finished_mail) {
-			echo "siunciu finished maila";
+			$sql_for_user_email = "SELECT email FROM users WHERE userid = '$owner_userid'";
+			$query_for_email = mysqli_query($dbc, $sql_for_user_email);
+			$email = mysqli_fetch_assoc($query_for_email)['email'];
+
+			$subject = "Jūsų siunta ID:".$id." buvo sekmingai jum atvezta";
+			$message = "Atvezta siunta i jusu miesta. Aciu, kad pirkote";
+			
+			$mail = new PHPMailer(true);
+			$mail->IsSMTP();
+			$mail->Host = 'smtp.gmail.com';
+			$mail->SMTPAuth = true;
+			$mail->SMTPOptions = array('ssl' => array('verify_peer' => false, 'verify_peer_name' => false, 'allow_self_signed' => true));
+			$mail->Username = 'vytas.sa1@gmail.com';
+			$mail->Password = 'ruuvicogpbumtksk';
+			$mail->Port = 587;
+			$mail->CharSet = 'UTF-8';
+
+			$mail->setFrom('vytas.sa1@gmail.com');
+			$mail->addAddress($email);
+			$mail->Subject = $subject;
+			$mail->Body = $message;
+
+			$mail->send();
 		}
 
 		$_SESSION['message'] = 'Sėkmingai atnaujinta';
