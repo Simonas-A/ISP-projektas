@@ -24,6 +24,13 @@
 	$userlevel=$_SESSION['ulevel'];
 	$previous_page = $_SESSION['prev'];
 
+	if(($userlevel != $user_roles["Darbuotojas"]) && ($userlevel != $user_roles[ADMIN_LEVEL])) {
+		$_SESSION['kicked'] = 'yes';
+		$_SESSION['message'] = 'Bandėte patekti į uzsakymo_info_keitimas.php puslapį, tačiau tam neturite privilegijų';
+		header("Location: logout.php");
+		exit;
+	}
+
 	$id = $_GET['id'];
 
     echo "<table width=100% border=\"0\" cellspacing=\"1\" cellpadding=\"3\" class=\"meniu\">";

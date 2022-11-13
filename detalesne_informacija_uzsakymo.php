@@ -21,11 +21,32 @@
 <?php
 	session_start();
 	include "include/nustatymai.php";
-
 	$userlevel=$_SESSION['ulevel'];
+	$userid = $_SESSION['userid'];
+
+	if ($_SESSION['user'] == "guest")
+ 	{ 	
+		$_SESSION['kicked'] = 'yes';
+		$_SESSION['message'] = 'Bandėte patekti į detalesne_informacija_uzsakymo.php puslapį, tačiau tam neturite privilegijų';
+		header("Location: logout.php");
+		exit;
+	}
+
+	$dbc= new mysqli("localhost", "stud", "stud", "vartvald");
+	$id = $_GET['id'];
+	$sql_owner_of_order = "SELECT fk_vartotojo_id FROM pristatymai WHERE id = $id";
+	$result = mysqli_query($dbc, $sql_owner_of_order);
+	$owner_of_order = mysqli_fetch_assoc($result)['fk_vartotojo_id'];
+	if(($userid != $owner_of_order) && (($userlevel != $user_roles["Darbuotojas"]) && ($userlevel != $user_roles[ADMIN_LEVEL]))) {
+		$_SESSION['kicked'] = 'yes';
+		$_SESSION['message'] = 'Bandėte patekti į kito žmogaus detalesne_informacija_uzsakymo.php puslapį, tačiau tam neturite privilegijų';
+		header("Location: logout.php");
+		exit;
+	}
+
 	$previous_page = $_SESSION['prev'];
 	$_SESSION['prev'] = 'detalesne_informacija_uzsakymo';
-    $id = $_GET['id'];
+    
 
     echo "<table width=100% border=\"0\" cellspacing=\"1\" cellpadding=\"3\" class=\"meniu\">";
 	echo "<tr><td>";
@@ -35,7 +56,7 @@
 
 	echo "<center><div style='width:50%; display:inline-block;'>";
 	echo "<h1 style='text-aling:left'>Užsakymo ID: ".$id." detalesnė informacija</h1><br>";
-	$dbc= new mysqli("localhost", "stud", "stud", "vartvald");
+	
 	$userid = $_SESSION['userid'];
 	$sql = "SELECT p.id, p.data, p.kaina, p.prekiu_kiekis, p.fk_pristatymo_id, budai.budas  FROM pirkimai AS p INNER JOIN apmokejimas AS a ON p.fk_apmokejimo_budo_id = a.id INNER JOIN apmokejimo_budai AS budai ON a.apmokejimo_budas = budai.id WHERE p.id = $id ORDER BY p.data DESC";
     

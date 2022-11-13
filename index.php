@@ -42,7 +42,10 @@ include("include/functions.php");
                    }  
    			  // jei ankstesnis puslapis perdavė $_SESSION['message']
 				echo "<div align=\"center\">";echo "<font size=\"4\" color=\"#ff0000\">".$_SESSION['message'] . "<br></font>";          
-		
+                if(isset($_GET['message'])) {
+                    echo "<h3 style='color: red'>".$_GET['message']."</h3><br>";
+                }
+
                 echo "<table class=\"center\"><tr><td>";
           include("include/login.php");                    // prisijungimo forma
                 echo "</td></tr></table></div><br>";

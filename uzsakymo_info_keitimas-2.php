@@ -20,10 +20,37 @@
 <?php
 	session_start();
 	include "include/nustatymai.php";
-
 	$userlevel=$_SESSION['ulevel'];
+	$userid = $_SESSION['userid'];
+	$dbc= new mysqli("localhost", "stud", "stud", "vartvald");
+
+	if ($_SESSION['user'] == "guest")
+ 	{ 	
+		$_SESSION['kicked'] = 'yes';
+		$_SESSION['message'] = 'Bandėte patekti į uzsakymo_info_keitimas-2.php puslapį, tačiau tam neturite privilegijų';
+		header("Location: logout.php");
+		exit;
+	}
+
 	$previous_page = $_SESSION['prev'];
 	$id = $_GET['id'];
+	$sql_owner_of_order = "SELECT * FROM pristatymai WHERE id = $id";
+	$result = mysqli_query($dbc, $sql_owner_of_order);
+	$owner_of_order = mysqli_fetch_assoc($result);
+
+	if(($userid != $owner_of_order['fk_vartotojo_id']) && (($userlevel != $user_roles["Darbuotojas"]) && ($userlevel != $user_roles[ADMIN_LEVEL]))) {
+		$_SESSION['kicked'] = 'yes';
+		$_SESSION['message'] = 'Bandėte patekti į kito žmogaus uzsakymo_info_keitimas-2.php puslapį, tačiau tam neturite privilegijų';
+		header("Location: logout.php");
+		exit;
+	}
+
+	if($owner_of_order['statusas'] != 1 && (($userlevel != $user_roles["Darbuotojas"]) && ($userlevel != $user_roles[ADMIN_LEVEL]))) {
+		$_SESSION['kicked'] = 'yes';
+		$_SESSION['message'] = 'Bandėte patekti į savo pristatymo redagavimą po leidžiamo laiko, tačiau tam neturite privilegijų';
+		header("Location: logout.php");
+		exit;
+	}
 
     echo "<table width=100% border=\"0\" cellspacing=\"1\" cellpadding=\"3\" class=\"meniu\">";
 	echo "<tr><td>";
@@ -33,8 +60,7 @@
 
 	echo "<center><div class='container mt-5'>";
 	echo "<h1 style='text-aling:left'>Užsakymo ID: ".$id." informacijos redagavimas</h1><br>";
-	$dbc= new mysqli("localhost", "stud", "stud", "vartvald");
-	$userid = $_SESSION['userid'];
+	
 	$sql = "SELECT p.id, p.data, p.kaina, p.prekiu_kiekis, p.fk_pristatymo_id, budai.budas FROM pirkimai AS p INNER JOIN apmokejimas AS a ON p.fk_apmokejimo_budo_id = a.id INNER JOIN apmokejimo_budai AS budai ON a.apmokejimo_budas = budai.id WHERE p.id = $id ORDER BY p.data DESC";
 	$result = mysqli_query($dbc, $sql);
 	

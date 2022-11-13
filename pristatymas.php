@@ -12,6 +12,14 @@
 	session_start();
 	include "include/nustatymai.php";
 
+	if ($_SESSION['user'] == "guest")
+ 	{ 	
+		$_SESSION['kicked'] = 'yes';
+		$_SESSION['message'] = 'Bandėte patekti į pristatymas.php puslapį, tačiau tam neturite privilegijų';
+		header("Location: logout.php");
+		exit;
+	}
+
 	$userlevel=$_SESSION['ulevel'];
 	$_SESSION['prev'] = 'pristatymas';
 
@@ -20,7 +28,7 @@
 	echo "</td></tr><tr><td>";
 	echo "<form method='post' action='index.php' style='display:inline'><input type='submit' value='Grįžti' class='btn btn-danger' name='btn1'></form> &nbsp;&nbsp;";
 	
-	if(($userlevel == $user_roles["Administratorius"]) || ($userlevel == $user_roles["Vadovas"])) {
+	if(($userlevel == $user_roles["Administratorius"]) || ($userlevel == $user_roles["Darbuotojas"])) {
 		echo "<form method='post' action='uzsakymu_redagavimas.php' style='display:inline'><input type='submit' value='Darbuotojo sąsaja' class='btn btn-danger' name='btn1'></form> &nbsp;&nbsp;";
 	}
 	

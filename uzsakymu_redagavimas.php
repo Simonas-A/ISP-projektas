@@ -46,6 +46,15 @@ function myFunction() {
 	include "include/nustatymai.php";
 
 	$userlevel=$_SESSION['ulevel'];
+	if (($userlevel != $user_roles["Darbuotojas"]) && ($userlevel != $user_roles[ADMIN_LEVEL]))
+ 	{ 	
+		$_SESSION['kicked'] = 'yes';
+		$_SESSION['message'] = 'Bandėte patekti į uzsakymu_redagavimas.php puslapį, tačiau tam neturite privilegijų';
+		header("Location: logout.php");
+		exit;
+	}
+
+	
 	$_SESSION['prev'] = 'uzsakymu_redagavimas';
 
     echo "<table width=100% border=\"0\" cellspacing=\"1\" cellpadding=\"3\" class=\"meniu\">";
