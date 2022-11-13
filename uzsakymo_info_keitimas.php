@@ -132,8 +132,9 @@
 			$sql_for_user_email = "SELECT email FROM users WHERE userid = '$owner_userid'";
 			$query_for_email = mysqli_query($dbc, $sql_for_user_email);
 			$email = mysqli_fetch_assoc($query_for_email)['email'];
-			$subject = "Jūsų siunta ID:".$id." buvo išsiūsta";
-			$message = "Issiusta siunta, jau keliauja link jusu";
+			$subject = "Jūsų užsakymo nr. ".$id." siunta buvo išsiųsta";
+			$message = "<center><h1>Užsakymas išsiųstas</h1></center><br><h2>Užsakymo nr. ".$id." buvo išsiųstas į ".$shippment_address." adresą
+			<h2>Dėkojame, kad pasirinkote Atominis Reaktorius internetinę parduotuvę</h2>";
 
 			$mail = new PHPMailer(true);
 			$mail->IsSMTP();
@@ -143,6 +144,8 @@
 			$mail->Username = 'vytas.sa1@gmail.com';
 			$mail->Password = 'ruuvicogpbumtksk';
 			$mail->Port = 587;
+			$mail->CharSet = 'UTF-8';
+			$mail->isHTML(true);
 
 			$mail->setFrom('vytas.sa1@gmail.com');
 			$mail->addAddress($email);
@@ -158,8 +161,31 @@
 			$query_for_email = mysqli_query($dbc, $sql_for_user_email);
 			$email = mysqli_fetch_assoc($query_for_email)['email'];
 
-			$subject = "Jūsų siunta ID:".$id." buvo sekmingai jum atvezta";
-			$message = "Atvezta siunta i jusu miesta. Aciu, kad pirkote";
+			$subject = "Užsakymo nr. ".$id." įvykdytas";
+			$message = "<div class='container mt-5' style='text-align:left; width:100%'><center><h1>Užsakymas įvykdytas</h1></center><br>
+			<p>Ačiū, kad pirkote Atominis Reaktorius internetinėje parduotuvėjė.<br>
+			Jeigu turite pastebėjimų, nusiskundimų ar pasiūlymų, susisiekite su mumis šiuo paštu: vytas.sa1@gmail.com</p><br></div><br>
+			<center><h1>Užsakymo ataskaita</h1></center>
+			<table style='width:50%' align='center' class='table table-bordered table-dark'><tr>
+			<th>Prekė</th><th>Kiekis</th><th>Iš viso</th></tr><tr>";
+
+			$sql = "SELECT prekes.pavadinimas, prekes.kaina, ppt.pirktas_kiekis FROM prekes INNER JOIN preke_pirkimai_tarpinis AS ppt ON prekes.id = ppt.fk_preke_id WHERE ppt.fk_pirkimas_id = $id";
+			$result = mysqli_query($dbc, $sql);
+
+			while($row = mysqli_fetch_assoc($result)) {
+				$total_price_for_one_row = $row['pirktas_kiekis'] * $row['kaina'];
+				$message .= "<td>".$row['pavadinimas']."</td><td>".$row['pirktas_kiekis']."</td><td>".$total_price_for_one_row."</td>";
+			}
+			
+			$sql_for_shippments = "SELECT * FROM pristatymai WHERE pristatymai.id = ".$id."";
+			$result = mysqli_query($dbc, $sql_for_shippments);
+			$shippment_info = mysqli_fetch_assoc($result);
+
+			$sql_for_discounts = "SELECT * FROM pirkimai INNER JOIN nuolaidos ON pirkimai.fk_nuolaidos_id = nuolaidos.id WHERE pirkimai.id = ".$id."";
+			$result = mysqli_query($dbc, $sql_for_discounts);
+			$discount_info = mysqli_fetch_assoc($result);
+
+			$message .= "</tr></table><br><table style='width:50%' align='center' class='table table-bordered table-dark'><tr><th>Pristatymo būdas</th><th>Mokėjimo būdas</th><th>Nuolaida</th><th>Pristatymo mokestis</th><th>Viso krepšelio mokestis</th></tr><tr><td><b>".$shippment_info['budas']."</b><br>".$shippment_address."</td><td>".$payment_type."</td><td>".$discount_info['nuolaida']."</td><td>".$shippment_info['mokestis']."</td><td>".$total_price."</td></tr></table>";
 			
 			$mail = new PHPMailer(true);
 			$mail->IsSMTP();
@@ -170,6 +196,7 @@
 			$mail->Password = 'ruuvicogpbumtksk';
 			$mail->Port = 587;
 			$mail->CharSet = 'UTF-8';
+			$mail->isHTML(true);
 
 			$mail->setFrom('vytas.sa1@gmail.com');
 			$mail->addAddress($email);
