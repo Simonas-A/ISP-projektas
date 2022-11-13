@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2022 at 06:47 PM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.10
+-- Generation Time: Nov 13, 2022 at 10:59 PM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -193,6 +193,25 @@ INSERT INTO `pristatymai` (`id`, `adresas`, `data`, `statusas`, `fk_vartotojo_id
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `saskaita`
+--
+
+CREATE TABLE `saskaita` (
+  `client` varchar(32) NOT NULL,
+  `amount` decimal(12,2) NOT NULL,
+  `id` int(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `saskaita`
+--
+
+INSERT INTO `saskaita` (`client`, `amount`, `id`) VALUES
+('689e5b2971577d707becb97405ede951', '10.15', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `statusai`
 --
 
@@ -301,6 +320,13 @@ ALTER TABLE `pristatymai`
   ADD KEY `statusas` (`statusas`);
 
 --
+-- Indexes for table `saskaita`
+--
+ALTER TABLE `saskaita`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `klientas` (`client`);
+
+--
 -- Indexes for table `statusai`
 --
 ALTER TABLE `statusai`
@@ -357,6 +383,12 @@ ALTER TABLE `prekes`
 --
 ALTER TABLE `pristatymai`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `saskaita`
+--
+ALTER TABLE `saskaita`
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `statusai`
