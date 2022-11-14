@@ -17,13 +17,15 @@ $role="";
         if ($_SESSION['user'] != "guest") echo "[<a href=\"useredit.php\">Redaguoti paskyrą</a>] &nbsp;&nbsp;";
         echo "[<a href=\"operacija1.php\">Prekės</a>] &nbsp;&nbsp;";
         echo "[<a href=\"klientu-posisteme/client-menu.php\">Klientai</a>] &nbsp;&nbsp;";
-        echo "[<a href=\"operacija2.php\">Demo operacija2</a>] &nbsp;&nbsp;";
-	   echo "[<a href=\"operacija3.php\">Demo operacija2</a>] &nbsp;&nbsp;";
+        //echo "[<a href=\"operacija2.php\">Demo operacija2</a>] &nbsp;&nbsp;";
+	   //echo "[<a href=\"operacija3.php\">Demo operacija2</a>] &nbsp;&nbsp;";
 		echo "[<a href=\"pristatymas.php\">Pristatymai</a>] &nbsp;&nbsp;";
         echo "[<a href=\"krepselis.php\">Mano krepšelis</a>] &nbsp;&nbsp;";
      //Trečia operacija tik rodoma pasirinktu kategoriju vartotojams, pvz.:
         if (($userlevel == $user_roles["Darbuotojas"]) || ($userlevel == $user_roles[ADMIN_LEVEL] )) {
             //echo "[<a href=\"skaitau.php\">Žinutės</a>] &nbsp;&nbsp;";
+			echo "[<a href=\"tiekimas/tiekejai.php\">Tiekėjai</a>] &nbsp;&nbsp;";
+			echo "[<a href=\"tiekimas/uzsakymai.php\">Tiekimo užsakymai</a>] &nbsp;&nbsp;";
        		}   
         //Administratoriaus sąsaja rodoma tik administratoriui
         if ($userlevel == $user_roles[ADMIN_LEVEL] ) {
