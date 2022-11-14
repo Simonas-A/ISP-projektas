@@ -1,6 +1,12 @@
-<table class="center" style=" width:75%; border-width: 2px; border-style: dotted;">
-		         <tr><td width=30%><a href="../index.php">[Atgal]</a></td><td width=30%> 
-                    </table
+<html>
+<link rel="stylesheet" href=
+"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<head>
+  <title>Klientai</title>
+</head>
+<center>
+<body>
+<a href="../index.php">[Atgal]</a>
 <?php
 session_start();
 if (!isset($_SESSION)) { header("Location: logout.php");exit;}
@@ -33,5 +39,7 @@ $role="";
         //echo "[<a href=\"logout.php\">Atsijungti</a>]";
       echo "</td></tr></table>";
 ?>       
-    
+</body>
+</center>
+</html>
  

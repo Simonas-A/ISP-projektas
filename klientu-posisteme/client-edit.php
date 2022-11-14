@@ -5,7 +5,8 @@ $q= "SELECT * FROM users WHERE userid='$clientid'";
 $query=mysqli_query($con,$q);
 $row = mysqli_fetch_array($query);
 ?>
-
+<link rel="stylesheet" href=
+"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <table>
 <tr><td width=30%><a href="./client-list.php">[Atgal]</a></td><td width=30%>
 </table>

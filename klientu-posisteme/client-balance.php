@@ -1,3 +1,5 @@
+<link rel="stylesheet" href=
+"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <table class="center" style=" width:75%; border-width: 2px; border-style: dotted;">
 <tr><td width=30%><a href="./client-menu.php">[Atgal]</a></td><td width=30%> 
 </table>
