@@ -49,7 +49,7 @@
 
 	echo "<center><div class='container mt-3'>";
 	echo "<h1 style='text-aling:left'>Užsakymo ID: ".$id." informacijos redagavimas</h1><br>";
-	$dbc= new mysqli("localhost", "stud", "stud", "vartvald");
+	$dbc= new mysqli("localhost", "root", "", "vartvald");
 	$userid = $_SESSION['userid'];
 	$sql = "SELECT p.id, p.data, p.kaina, p.prekiu_kiekis, p.fk_pristatymo_id, budai.budas FROM pirkimai AS p INNER JOIN apmokejimas AS a ON p.fk_apmokejimo_budo_id = a.id INNER JOIN apmokejimo_budai AS budai ON a.apmokejimo_budas = budai.id WHERE p.id = $id ORDER BY p.data DESC";
 	$result = mysqli_query($dbc, $sql);

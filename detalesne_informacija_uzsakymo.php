@@ -32,7 +32,7 @@
 		exit;
 	}
 
-	$dbc= new mysqli("localhost", "stud", "stud", "vartvald");
+	$dbc= new mysqli("localhost", "root", "", "vartvald");
 	$id = $_GET['id'];
 	$sql_owner_of_order = "SELECT fk_vartotojo_id FROM pristatymai WHERE id = $id";
 	$result = mysqli_query($dbc, $sql_owner_of_order);
