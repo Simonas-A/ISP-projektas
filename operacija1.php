@@ -49,7 +49,7 @@
                                 class="form-control" 
                                 name="pavadinimas">
                           
-                            <div class="col-lg-4" 
+                            <div class="col-lg-5" 
                                 method="post">
                                 <input type="submit" 
                                 class="btn btn-danger float-right" 
@@ -105,7 +105,12 @@
                         <a href=
                         "prekes_add_to_cart.php?id=<?php echo $qq['id']; ?>"
                         class="card-link">
-                        Pridėti į krepšelį
+							Pridėti į krepšelį
+                        </a>
+                        <a href=
+                        "prekes_view.php?id=<?php echo $qq['id']; ?>"
+                        class="card-link">
+							Peržiūrėti prekę
                         </a>
                     </div>
                 </div><br>
