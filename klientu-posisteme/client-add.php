@@ -1,11 +1,14 @@
 <link rel="stylesheet" href=
 "https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/style.css">
+<div style="margin: auto;width: 60%;padding: 10px;">
+
 <table class="center" style=" width:75%; border-width: 2px; border-style: dotted;">
-<tr><td width=30%><a href="./client-menu.php">[Atgal]</a></td><td width=30%> 
+<tr><td width=30%><a class="btn btn-danger" href="./client-menu.php">[Atgal]</a></td><td width=30%> 
 </table>
 <h1>You can add new client here</h1>
 <form action="client-add.php" method="POST">
-<table class="center" style=" width:75%; border-width: 2px; border-style: dotted;">
+    <table class="table table-hover">
 <tr><td>Client name:</td><td><input type="text" name="name" value=""></td></tr>
 <tr><td>Client surname:</td><td><input type="text" name="surname" value=""></td></tr>
 <tr><td>Client username:</td><td><input type="text" name="username" value=""></td></tr>
@@ -37,3 +40,4 @@ else {
     echo "Please fill all fields";
 }
 ?>
+</div>

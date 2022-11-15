@@ -3,7 +3,7 @@
         <meta http-equiv="Content-Type" 
             content="text/html; charset=UTF-8">
    
-        <title>Mano krepšelis</title>
+        <title>Perkamiausios prekės</title>
    
         <link rel="stylesheet" href=
     "https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -13,20 +13,10 @@
     </head>
 
     <body>
-        <div class="container mt-5">
-   
-            <!-- top -->
-            <div class="row">
-                <div class="col-lg-8">
-                    <h1>Mano krepšelis</h1>
-                </div>
-            </div>
-   
-            <!-- Grocery Cards -->
-            <div class="row mt-4">
+    <div class="center" style=" margin: auto;width: 60%;padding: 10px;">
 
 <table class="center" style=" width:75%; border-width: 2px; border-style: dotted;">
-<tr><td width=30%><a href="./client-menu.php">[Atgal]</a></td><td width=30%> 
+<tr><td width=30%><a class='btn btn-danger' href="./client-menu.php">[Atgal]</a></td><td width=30%> 
 </table>
 <h1>You can see list of client common goods here</h1>
 
@@ -44,7 +34,7 @@ $result = $con->query($sql);
 if ($result->num_rows > 0) {
     // output data of each row
     echo "<h1>Prekamiausių prekių sąrašas</h1>";
-    echo "<table class='center' style=' width:75%; border-width: 2px; border-style: dotted'>";
+    echo "<table class='table table-hover'>";
     echo "<tr><td><b>Prekė</b></td><td><b>iš viso nupirkta</b></td></tr>";
     while($row = $result->fetch_assoc()) {
         echo "<tr><td>" . $row["pavadinimas"]. "</td><td>" . $row["suma"]. "</td></tr>";
@@ -57,3 +47,4 @@ $con->close();
 ?>
 </body>
 </html>
+</div>
