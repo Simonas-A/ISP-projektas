@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 14, 2022 at 03:27 PM
+-- Generation Time: Nov 15, 2022 at 01:13 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -281,7 +281,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`name`, `surname`, `username`, `password`, `userid`, `userlevel`, `email`, `timestamp`, `phone`, `position`, `type`) VALUES
-('', '', 'darbuotojas', '16c354b68848cdbd8f54a226a0a55b21', '2721ae19d27ea5033cf23c6cd103ae10', 5, 'darbuotojas@demo.lt', '2022-11-14 12:20:00', '+37065432198', NULL, 'klientas'),
+('', '', 'darbuotojas', '16c354b68848cdbd8f54a226a0a55b21', '2721ae19d27ea5033cf23c6cd103ae10', 5, 'darbuotojas@demo.lt', '2022-11-14 23:39:13', '+37065432198', NULL, 'klientas'),
 ('Simonas', 'aasd', 'hmm', 'c2acd92812ef99acd3dcdbb746b9a434', '5f2f664dc9cbf6932cfd6246b584016c', 4, 'lol@gmail.com', '2022-11-13 01:41:49', '+37099999999', NULL, 'klientas'),
 ('rimas', 'rimauskas', 'rimas', 'c2acd92812ef99acd3dcdbb746b9a434', '689e5b2971577d707becb97405ede951', 9, 'rimas@litnet.lt', '2022-11-13 19:14:24', '0', '', ''),
 ('kostas', 'kostauskas', 'kostas', '1c37511487d38c3ebc4c59650ce2d65a', '69986045e0925262d43addddaf76094f', 5, 'eeee@ll.lt', '2018-02-16 16:04:35', '0', '', ''),
@@ -299,8 +299,8 @@ INSERT INTO `users` (`name`, `surname`, `username`, `password`, `userid`, `userl
 
 CREATE TABLE `uzsakymas` (
   `id` int(11) NOT NULL,
-  `sudaryta` datetime NOT NULL,
-  `pristatyta` datetime NOT NULL,
+  `sudaryta` datetime NOT NULL DEFAULT current_timestamp(),
+  `pristatyta` datetime DEFAULT NULL,
   `suma` float NOT NULL,
   `pristatymo_kaina` float NOT NULL,
   `fk_darbuotojas_id` varchar(32) CHARACTER SET utf8 NOT NULL,
@@ -313,8 +313,8 @@ CREATE TABLE `uzsakymas` (
 --
 
 INSERT INTO `uzsakymas` (`id`, `sudaryta`, `pristatyta`, `suma`, `pristatymo_kaina`, `fk_darbuotojas_id`, `fk_statusas`, `fk_tiekejas`) VALUES
-(1, '2022-11-14 14:14:34', '2022-11-14 14:14:34', 12.44, 2.49, 'd6dae04acf3129a632f712126486d867', 1, 3),
-(2, '2022-11-14 14:14:34', '2022-11-14 14:14:34', 50.89, 10, '69986045e0925262d43addddaf76094f', 2, 1);
+(1, '2022-11-14 14:14:34', '2022-11-14 14:14:34', 12.44, 2.49, 'd6dae04acf3129a632f712126486d867', 3, 3),
+(2, '2022-11-14 14:14:34', '2022-11-14 14:14:34', 50.89, 10, '69986045e0925262d43addddaf76094f', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -498,7 +498,7 @@ ALTER TABLE `tiekejai`
 -- AUTO_INCREMENT for table `uzsakymas`
 --
 ALTER TABLE `uzsakymas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
