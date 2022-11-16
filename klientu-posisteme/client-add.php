@@ -31,6 +31,7 @@ if (!empty($_POST['name']) && !empty($_POST['surname']) && !empty($_POST['userna
                     ('$name', '$surname', '$username', '$password', '$userid', 4, '$email', '$phone', 'klientas')";
     if ($con->query($sql) === TRUE) {
         echo "New record created successfully";
+        goback();
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
@@ -38,6 +39,11 @@ if (!empty($_POST['name']) && !empty($_POST['surname']) && !empty($_POST['userna
 }
 else {
     echo "Please fill all fields";
+}
+
+function goback() {
+    header("Location: client-list.php");
+    exit;
 }
 ?>
 </div>
