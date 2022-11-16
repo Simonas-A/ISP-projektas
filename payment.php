@@ -1,8 +1,6 @@
 <?php
     include("prekes_db_connect.php");
-    $id = $_GET['id'];
-    $payment_type = $_GET['ptype'];
-    echo $id;
+
 //    $q = "
 //            INSERT INTO preke_pirkimai_tarpinis (fk_preke_id, kiekis) VALUES ((SELECT id from prekes where Id = $id), 1)
 //    ";

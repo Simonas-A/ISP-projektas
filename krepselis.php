@@ -58,12 +58,12 @@ if (mysqli_num_rows($query)!=0) {
                         </h5>
                         <h6 class="card-subtitle mb-2 text-muted">
                             <p class="text-info">Kiekis:
-                                <?php echo $qq['kiekis']; ?>
+                                <?php echo $qq['pirktas_kiekis']; ?>
                             </p>
                         </h6>
                         <h6 class="card-subtitle mb-2 text-muted">
                             <p class="text-info">Kaina:
-                                // <?php echo $qq['kaina']; ?>
+                                
                             </p>
                         </h6>
                         
@@ -73,7 +73,7 @@ if (mysqli_num_rows($query)!=0) {
                             Keisti kiekį
                         </a>
                         <a href=
-                        "krepselis_delete.php?id=<?php echo $qq['id']; ?>"
+                        "krepselis_delete.php?id=<?php echo $qq['fk_preke_id']; ?>"
                             class="card-link">
                             Pašalinti
                         </a>
@@ -92,7 +92,7 @@ if (mysqli_num_rows($query)!=0) {
         </div>
             <h6 class="card-subtitle mb-2 text-muted">
                 <p style="color: black;">Viso užsakymo kaina:
-                    // <?php echo $qq['kaina']; ?>
+                    
                 </p>
             </h6>
 
@@ -113,7 +113,7 @@ if (mysqli_num_rows($query)!=0) {
                 </div>
             </form>
                                 
-            <form method="post" action="payment.php?id=<?php echo $qq['id'];?>">
+            <form method="post" action="payment.php">
             <div style="text-align: right;">
                 <input type="submit"
                     value="Apmokėti"
