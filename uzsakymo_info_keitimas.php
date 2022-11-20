@@ -116,12 +116,14 @@
 		$shippment_address = $_POST['adresas'];
 		$checkbox_status = $_POST['checkboxas'];
 
-		$sql_for_purchases = "UPDATE pirkimai SET kaina = '$total_price', prekiu_kiekis = '$count_of_items', fk_apmokejimo_budo_id = '$payment_type' WHERE id = $id";
+		$sql_for_purchases = "UPDATE pirkimai SET kaina = '$total_price', prekiu_kiekis = '$count_of_items' WHERE id = $id";
 		$query = mysqli_query($dbc, $sql_for_purchases);
 
 		$sql_for_shippment = "UPDATE pristatymai SET data = '$datetime', statusas = '$shippment_status', adresas = '$shippment_address' WHERE id = $id";
         $query=mysqli_query($dbc, $sql_for_shippment);
 
+		$sql_for_payment_type = "UPDATE apmokejimas SET apmokejimo_budas = '$payment_type' WHERE id = $id";
+		$query=mysqli_query($dbc, $sql_for_payment_type);
 
 		$sql_owner_of_order = "SELECT * FROM pristatymai WHERE id = $id";
 		$result = mysqli_query($dbc, $sql_owner_of_order);
@@ -162,19 +164,19 @@
 			$email = mysqli_fetch_assoc($query_for_email)['email'];
 
 			$subject = "Užsakymo nr. ".$id." įvykdytas";
-			$message = "<div class='container mt-5' style='text-align:left; width:100%'><center><h1>Užsakymas įvykdytas</h1></center><br>
+			$message = "<div class='container mt-5' style='text-align:left; width:50%; display: table-header-group;'><h1>Užsakymas įvykdytas</h1><br>
 			<p>Ačiū, kad pirkote Atominis Reaktorius internetinėje parduotuvėjė.<br>
 			Jeigu turite pastebėjimų, nusiskundimų ar pasiūlymų, susisiekite su mumis šiuo paštu: vytas.sa1@gmail.com</p><br></div><br>
-			<center><h1>Užsakymo ataskaita</h1></center>
-			<table style='width:50%' align='center' class='table table-bordered table-dark'><tr>
-			<th>Prekė</th><th>Kiekis</th><th>Iš viso</th></tr><tr>";
+			<h1>Užsakymo ataskaita</h1>
+			<table style='width:20%; border: 1px solid black; border-collapse: collapse'><tr style='text-align:left; border: 1px solid black; border-collapse: collapse'>
+			<th style='text-align:left; border: 1px solid black; border-collapse: collapse'>Prekė</th><th style='text-align:left; border: 1px solid black; border-collapse: collapse'>Kiekis</th><th style='text-align:left; border: 1px solid black; border-collapse: collapse'>Iš viso</th></tr>";
 
 			$sql = "SELECT prekes.pavadinimas, prekes.kaina, ppt.pirktas_kiekis FROM prekes INNER JOIN preke_pirkimai_tarpinis AS ppt ON prekes.id = ppt.fk_preke_id WHERE ppt.fk_pirkimas_id = $id";
 			$result = mysqli_query($dbc, $sql);
 
 			while($row = mysqli_fetch_assoc($result)) {
 				$total_price_for_one_row = $row['pirktas_kiekis'] * $row['kaina'];
-				$message .= "<td>".$row['pavadinimas']."</td><td>".$row['pirktas_kiekis']."</td><td>".$total_price_for_one_row."</td>";
+				$message .= "<tr style='text-align:left; border: 1px solid black; border-collapse: collapse'><td style='text-align:left; border: 1px solid black; border-collapse: collapse'>".$row['pavadinimas']."</td><td style='text-align:left; border: 1px solid black; border-collapse: collapse'>".$row['pirktas_kiekis']."</td><td style='text-align:left; border: 1px solid black; border-collapse: collapse'>".$total_price_for_one_row."</td></tr>";
 			}
 			
 			$sql_for_shippments = "SELECT * FROM pristatymai WHERE pristatymai.id = ".$id."";
@@ -185,8 +187,11 @@
 			$result = mysqli_query($dbc, $sql_for_discounts);
 			$discount_info = mysqli_fetch_assoc($result);
 
-			$message .= "</tr></table><br><table style='width:50%' align='center' class='table table-bordered table-dark'><tr><th>Pristatymo būdas</th><th>Mokėjimo būdas</th><th>Nuolaida</th><th>Pristatymo mokestis</th><th>Viso krepšelio mokestis</th></tr><tr><td><b>".$shippment_info['budas']."</b><br>".$shippment_address."</td><td>".$payment_type."</td><td>".$discount_info['nuolaida']."</td><td>".$shippment_info['mokestis']."</td><td>".$total_price."</td></tr></table>";
-			
+			$sql_for_payment_type_in_words = "SELECT apmokejimo_budai.budas FROM apmokejimas INNER JOIN apmokejimo_budai ON apmokejimo_budai.id = apmokejimas.id WHERE apmokejimas.id = ".$id."";
+			$result = mysqli_query($dbc, $sql_for_payment_type_in_words);
+			$payment_type = mysqli_fetch_assoc($result);
+
+			$message .= "</table><br><br><table style='width: 50%; text-align:left; border: 1px solid black; border-collapse: collapse'><tr style='text-align:left; border: 1px solid black; border-collapse: collapse'><th style='text-align:left; border: 1px solid black; border-collapse: collapse'>Pristatymo būdas</th><th style='text-align:left; border: 1px solid black; border-collapse: collapse'>Mokėjimo būdas</th><th style='text-align:left; border: 1px solid black; border-collapse: collapse'>Nuolaida</th><th style='text-align:left; border: 1px solid black; border-collapse: collapse'>Pristatymo mokestis</th><th style='text-align:left; border: 1px solid black; border-collapse: collapse'>Viso krepšelio mokestis</th></tr><tr><td style='text-align:left; border: 1px solid black; border-collapse: collapse'><b>".$shippment_info['budas']."</b><br>".$shippment_address."</td><td style='text-align:left; border: 1px solid black; border-collapse: collapse'>".$payment_type['budas']."</td><td style='text-align:left; border: 1px solid black; border-collapse: collapse'>".$discount_info['nuolaida']."</td><td style='text-align:left; border: 1px solid black; border-collapse: collapse'>".$shippment_info['mokestis']."</td><td style='text-align:left; border: 1px solid black; border-collapse: collapse'>".$total_price."</td></tr></table>";
 			$mail = new PHPMailer(true);
 			$mail->IsSMTP();
 			$mail->Host = 'smtp.gmail.com';
@@ -202,7 +207,6 @@
 			$mail->addAddress($email);
 			$mail->Subject = $subject;
 			$mail->Body = $message;
-
 			$mail->send();
 		}
 
