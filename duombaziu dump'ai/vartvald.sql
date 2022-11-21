@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 20, 2022 at 06:11 PM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 8.1.2
+-- Generation Time: Nov 21, 2022 at 12:32 PM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -133,20 +133,23 @@ CREATE TABLE `pratyboms` (
 CREATE TABLE `prekes` (
   `id` int(11) NOT NULL,
   `pavadinimas` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
-  `kiekis` int(11) NOT NULL,
-  `statusas` tinyint(1) NOT NULL DEFAULT 0,
-  `Data` date DEFAULT NULL,
-  `kaina` float NOT NULL
+  `Pardavimo_kaina` float NOT NULL,
+  `Savikaina` float NOT NULL,
+  `Nuolaida` int(11) DEFAULT NULL,
+  `Kilmes_vieta` varchar(20) NOT NULL,
+  `Siuntimo_kaina` float DEFAULT NULL,
+  `Papildoma_informacija` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `prekes`
 --
 
-INSERT INTO `prekes` (`id`, `pavadinimas`, `kiekis`, `statusas`, `Data`, `kaina`) VALUES
-(7, 'Obuoliai (500 g)', 0, 0, '0000-00-00', 2.22),
-(8, 'Bananai (1 kg)', 0, 0, '0000-00-00', 0.76),
-(9, 'Riešutai (100g)', 6, 0, '0000-00-00', 1.22);
+INSERT INTO `prekes` (`id`, `pavadinimas`, `Pardavimo_kaina`, `Savikaina`, `Nuolaida`, `Kilmes_vieta`, `Siuntimo_kaina`, `Papildoma_informacija`) VALUES
+(7, 'Obuoliai (500 g)', 2.22, 2, 0, 'Kaunas', 0, ''),
+(8, 'Bananai (1 kg)', 0.76, 0, NULL, '', NULL, NULL),
+(9, 'Riešutai (100g)', 1.22, 0, NULL, '', NULL, NULL),
+(10, 'Padanga', 25, 18, NULL, 'Vilnius', NULL, 'Juodi ratai');
 
 -- --------------------------------------------------------
 
@@ -168,7 +171,8 @@ INSERT INTO `preke_pirkimai_tarpinis` (`fk_preke_id`, `fk_pirkimas_id`, `pirktas
 (7, 1, 3),
 (7, 3, 5),
 (8, 2, 12),
-(8, 3, 15);
+(8, 3, 15),
+(10, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -284,13 +288,15 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`name`, `surname`, `username`, `password`, `userid`, `userlevel`, `email`, `timestamp`, `phone`, `position`, `type`) VALUES
 ('', '', 'darbuotojas', '16c354b68848cdbd8f54a226a0a55b21', '2721ae19d27ea5033cf23c6cd103ae10', 5, 'darbuotojas@demo.lt', '2022-11-14 23:39:13', '+37065432198', NULL, 'klientas'),
+('', '', 'valdytojas', 'c2acd92812ef99acd3dcdbb746b9a434', '582e5be8aed3dcdb5d0cf740157e138a', 5, 'D@ltu.lt', '2022-11-21 11:24:11', '+37065432198', NULL, 'klientas'),
 ('Simonas', 'aasd', 'hmm', 'c2acd92812ef99acd3dcdbb746b9a434', '5f2f664dc9cbf6932cfd6246b584016c', 4, 'lol@gmail.com', '2022-11-13 01:41:49', '+37099999999', NULL, 'klientas'),
-('rimas', 'rimauskas', 'rimas', 'c2acd92812ef99acd3dcdbb746b9a434', '689e5b2971577d707becb97405ede951', 9, 'vytas.sa12@gmail.com', '2022-11-20 15:15:08', '0', '', ''),
+('rimas', 'rimauskas', 'rimas', 'c2acd92812ef99acd3dcdbb746b9a434', '689e5b2971577d707becb97405ede951', 9, 'vytas.sa12@gmail.com', '2022-11-21 11:20:10', '0', '', ''),
 ('kostas', 'kostauskas', 'kostas', '1c37511487d38c3ebc4c59650ce2d65a', '69986045e0925262d43addddaf76094f', 5, 'eeee@ll.lt', '2018-02-16 16:04:35', '0', '', ''),
 ('', '', 'klientas', '16c354b68848cdbd8f54a226a0a55b21', '703c4615ea4bdae8bb7eeeb07eacaabd', 4, 'klientas@demo.lt', '2022-11-14 01:01:48', '+37065432198', NULL, 'klientas'),
 ('jonas', 'jonauskas', 'jonas', '64067822105b320085d18e386f57d89a', '9c5ddd54107734f7d18335a5245c286b', 255, 'vytas.sa12@gmail.com', '2017-05-09 17:10:37', '0', '', ''),
 ('adminas', 'adminauskas', 'Administratorius', '16c354b68848cdbd8f54a226a0a55b21', 'a2fe399900de341c39c632244eaf8483', 9, 'demo@ktu.lt', '2022-11-14 12:19:52', '0', '', ''),
 ('Simonas', 'aasd', 'simonasasas', '1653754378ce92f8cded9854caf733cb', 'b134e7196c6b2a979e26a911c749bc8f', 4, 'siasd@gmail.com', '2022-11-12 21:09:47', '+370999999123', NULL, 'klientas'),
+('', '', 'klie', 'c2acd92812ef99acd3dcdbb746b9a434', 'bad596e6029596d4ef57c2a5f49a91ed', 4, 'dad@ktu.da', '2022-11-21 11:21:34', '+37065432198', NULL, 'klientas'),
 ('PRANASLAVAS', 'ABUGELIS', 'PRANYS', '31c290ad43d6c7002b45df7e7a3286a1', 'd6dae04acf3129a632f712126486d867', 4, 'PRANAS@pranas.com', '2022-11-12 21:19:17', '+3765465465', NULL, 'klientas');
 
 -- --------------------------------------------------------
@@ -470,7 +476,7 @@ ALTER TABLE `pratyboms`
 -- AUTO_INCREMENT for table `prekes`
 --
 ALTER TABLE `prekes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `pristatymai`

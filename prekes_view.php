@@ -2,13 +2,16 @@
     include("prekes_db_connect.php");
     if(isset($_POST['btn']))
     {
-        $item_name=$_POST['iname'];
-        $item_qty=$_POST['iqty'];
-        $istatus=$_POST['istatus'];
-        $date=$_POST['idate'];
+		$item_name=$_POST['Pavadinimas'];
+		$sell_price=$_POST['Pardavimo_kaina'];
+		$price=$_POST['savikaina'];
+		$discount=$_POST['Nuolaida'];
+		$from=$_POST['Vieta'];
+		$shipping=$_POST['SiuntimoKaina'];
+		$info=$_POST['Informacija'];
         $id = $_GET['id'];
-        $q= "update prekes set pavadinimas='$item_name', kiekis='$item_qty', 
-        statusas='$istatus', Data='$date' where id=$id";
+        $q= "update prekes set pavadinimas='$item_name', Pardavimo_kaina='$sell_price', 
+        Savikaina='$price', Nuolaida='$discount', Kilmes_vieta='$from', Siuntimo_kaina='$shipping', Papildoma_informacija='$info' where id=$id";
         $query=mysqli_query($con,$q);
         header('location:operacija1.php');
     } 
@@ -45,32 +48,23 @@
             </div>
   
             <div class="form-group">
-                <label>Kiekis</label>
-        <h1><?php echo $res['kiekis'];?></h1>
+                <label>Kaina</label>
+        <h1><?php echo $res['Pardavimo_kaina'];?></h1>
             </div>
-  
-            <div class="form-group">
-                <label>Statusas</label>
-                    <?php
-                        if($res['statusas'] == 0) {
-                    ?>
-                    <h1><?php echo "Laukiama";?></h1>
-                    <?php } else if($res['statusas'] == 1) { ?>
-                   <h1><?php echo "Įsigyta";?></h1>
-                    <?php } else if($res['statusas'] == 2) { ?>
-                    <h1><?php echo "Nėra parduotuvėje";?></h1>
-                    <?php
-                        }
-                    ?>
+			
+  			<div class="form-group">
+                <label>Nuolaida</label>
+				<h1><?php 
+				if (isset($res['Nuolaida']))
+					echo $res['Nuolaida'];
+				else
+					echo "Prekė neturi nuolaidų";
+			?></h1>
             </div>
-  
-            <div class="form-group">
-                <label>Data</label>
-			<h1><?php echo $res['Data'];?></h1>
-            </div>
+			
 			<div class="form-group">
                 <label>Papildoma informacija</label>
-				<h1><?php echo "Papildoma informacija";?></h1>
+				<h1><?php echo $res['Papildoma_informacija'];?></h1>
             </div>
   
             <div class="form-group">

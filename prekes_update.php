@@ -2,13 +2,16 @@
     include("prekes_db_connect.php");
     if(isset($_POST['btn']))
     {
-        $item_name=$_POST['iname'];
-        $item_qty=$_POST['iqty'];
-        $istatus=$_POST['istatus'];
-        $date=$_POST['idate'];
+		$item_name=$_POST['Pavadinimas'];
+		$sell_price=$_POST['Pardavimo_kaina'];
+		$price=$_POST['savikaina'];
+		$discount=$_POST['Nuolaida'];
+		$from=$_POST['Vieta'];
+		$shipping=$_POST['SiuntimoKaina'];
+		$info=$_POST['Informacija'];
         $id = $_GET['id'];
-        $q= "update prekes set pavadinimas='$item_name', kiekis='$item_qty', 
-        statusas='$istatus', Data='$date' where id=$id";
+        $q= "update prekes set pavadinimas='$item_name', Pardavimo_kaina='$sell_price', 
+        Savikaina='$price', Nuolaida='$discount', Kilmes_vieta='$from', Siuntimo_kaina='$shipping', Papildoma_informacija='$info' where id=$id";
         $query=mysqli_query($con,$q);
         header('location:operacija1.php');
     } 
@@ -43,51 +46,67 @@
                 <label>Pavadinimas</label>
                 <input type="text" 
                     class="form-control" 
-                    name="iname" 
+                    name="Pavadinimas" 
                     placeholder="Pavadinimas" 
                     value=
         "<?php echo $res['pavadinimas'];?>" />
             </div>
   
             <div class="form-group">
-                <label>Kiekis</label>
+                <label>Pardavimo_kaina</label>
                 <input type="text" 
                     class="form-control" 
-                    name="iqty" 
-                    placeholder="Kiekis" 
-value="<?php echo $res['kiekis'];?>" />
+                    name="Pardavimo_kaina" 
+                    placeholder="Pardavimo_kaina" 
+value="<?php echo $res['Pardavimo_kaina'];?>" />
             </div>
-  
-            <div class="form-group">
-                <label>Statusas</label>
-                <select class="form-control" 
-                    name="istatus">
-                    <?php
-                        if($res['statusas'] == 0) {
-                    ?>
-                    <option value="0" selected>Laukiama</option>
-                    <option value="1">Įsigyta</option>
-                    <option value="2">Nėra parduotuvėje</option>
-                    <?php } else if($res['statusas'] == 1) { ?>
-                    <option value="0">Laukiama</option>
-                    <option value="1" selected>Įsigyta</option>
-                    <option value="2">Nėra parduotuvėje</option>
-                    <?php } else if($res['statusas'] == 2) { ?>
-                    <option value="0">Laukiama</option>
-                    <option value="1">Įsigyta</option>
-                    <option value="2" selected>Nėra parduotuvėje</option>
-                    <?php
-                        }
-                    ?>
-                </select>
+			
+	        <div class="form-group">
+                <label>Savikaina</label>
+                <input type="text" 
+                    class="form-control" 
+                    name="savikaina" 
+                    placeholder="savikaina" 
+value="<?php echo $res['Savikaina'];?>" />
             </div>
-  
-            <div class="form-group">
-                <label>Data</label>
-                <input type="date" class="form-control" 
-                    name="idate" placeholder="Data" 
-                    value="<?php echo $res['Data']?>">
+			
+			<div class="form-group">
+                <label>Nuolaida</label>
+                <input type="text" 
+                    class="form-control" 
+                    name="Nuolaida" 
+                    placeholder="Nuolaida" 
+value="<?php echo $res['Nuolaida'];?>" />
             </div>
+			
+			<div class="form-group">
+                <label>Kilmės vieta</label>
+                <input type="text" 
+                    class="form-control" 
+                    name="Vieta" 
+                    placeholder="Vieta" 
+value="<?php echo $res['Kilmes_vieta'];?>" />
+            </div>
+			
+			<div class="form-group">
+                <label>Siuntimo Kaina</label>
+                <input type="text" 
+                    class="form-control" 
+                    name="SiuntimoKaina" 
+                    placeholder="SiuntimoKaina" 
+value="<?php echo $res['Siuntimo_kaina'];?>" />
+            </div>
+			
+			<div class="form-group">
+                <label>Papildoma informacija</label>
+                <input type="text" 
+                    class="form-control" 
+                    name="Informacija" 
+                    placeholder="Informacija" 
+value="<?php echo $res['Papildoma_informacija'];?>" />
+            </div>
+			
+ 
             <div class="form-group">
                 <input type="submit" value="Atnaujinti" 
                     name="btn" class="btn btn-danger">

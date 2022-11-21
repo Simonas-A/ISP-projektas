@@ -22,38 +22,50 @@
                 <input type="text" 
                     class="form-control" 
                     placeholder="Pavadinimas" 
-                    name="iname" />
+                    name="Pavadinimas" />
             </div>
   
             <div class="form-group">
-                <label>Kiekis</label>
+                <label>Pardavimo_kaina</label>
                 <input type="text" 
                     class="form-control" 
-                    placeholder="Kiekis" 
-                    name="iqty" />
+                    placeholder="Pardavimo_kaina" 
+                    name="Pardavimo_kaina" />
             </div>
-  
-            <div class="form-group">
-                <label>Statusas</label>
-                <select class="form-control" 
-                    name="istatus">
-                    <option value="0">
-                        Laukiama
-                    </option>
-                    <option value="1">
-                        Įsigyta
-                    </option>
-                    <option value="2">
-                        Nėra parduotuvėje
-                    </option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Data</label>
-                <input type="date" 
+			<div class="form-group">
+                <label>Savikaina</label>
+                <input type="text" 
                     class="form-control" 
-                    placeholder="Data" 
-                    name="idate">
+                    placeholder="savikaina" 
+                    name="savikaina" />
+            </div>
+			<div class="form-group">
+                <label>Nuolaida</label>
+                <input type="text" 
+                    class="form-control" 
+                    placeholder="Nuolaida" 
+                    name="Nuolaida" />
+            </div>
+			<div class="form-group">
+                <label>Kilmės vieta</label>
+                <input type="text" 
+                    class="form-control" 
+                    placeholder="Vieta" 
+                    name="Vieta" />
+            </div>
+			<div class="form-group">
+                <label>Siuntimo kaina</label>
+                <input type="text" 
+                    class="form-control" 
+                    placeholder="SiuntimoKaina" 
+                    name="SiuntimoKaina" />
+            </div>
+			<div class="form-group">
+                <label>Papildoma informacija</label>
+                <input type="text" 
+                    class="form-control" 
+                    placeholder="Informacija" 
+                    name="Informacija" />
             </div>
             <div class="form-group">
                 <input type="submit" 
@@ -73,16 +85,17 @@
     <?php
         if(isset($_POST["btn"])) {
             include("prekes_db_connect.php");
-            $item_name=$_POST['iname'];
-            $item_qty=$_POST['iqty'];
-            $item_status=$_POST['istatus'];
-            $date=$_POST['idate'];
+            $item_name=$_POST['Pavadinimas'];
+			$sell_price=$_POST['Pardavimo_kaina'];
+			$price=$_POST['savikaina'];
+			$discount=$_POST['Nuolaida'];
+            $from=$_POST['Vieta'];
+            $shipping=$_POST['SiuntimoKaina'];
+            $info=$_POST['Informacija'];
       
   
-            $q="insert into prekes(pavadinimas,
-            kiekis,statusas,Data)
-            values('$item_name','$item_qty',
-            '$item_status','$date')";
+            $q="insert into prekes (pavadinimas, Pardavimo_kaina, Savikaina, Nuolaida, Kilmes_vieta, Siuntimo_kaina, Papildoma_informacija)
+            values('$item_name','$sell_price','$price','$discount','$from','$shipping','$info')";
   
             mysqli_query($con,$q);
             header("location:operacija1.php");

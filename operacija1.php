@@ -37,7 +37,12 @@
         <div class="row">
             <div class="col-lg-8">
                 <h1>Prekės</h1>
-                <a href="prideti_preke.php">Pridėti prekę</a>
+				<?php
+					session_start();
+					include "include/nustatymai.php";
+					$userlevel=$_SESSION['ulevel'];
+				if (($userlevel == $user_roles["Darbuotojas"] ) || ($userlevel == $user_roles[ADMIN_LEVEL] ))
+                echo "<a href='prideti_preke.php'>Pridėti prekę</a>"; ?>
             </div>
             <div class="col-lg-4">
                 <div class="row">
@@ -64,6 +69,7 @@
         <!-- Grocery Cards -->
         <div class="row mt-4">
             <?php
+				$userlevel=$_SESSION['ulevel'];
                 while ($qq=mysqli_fetch_array($query)) 
                 {
             ?>
@@ -76,37 +82,14 @@
                         </h5>
                         <h6 class="card-subtitle mb-2 text-muted">
                             <?php echo 
-                            $qq['kiekis']; ?>
+                            $qq['Pardavimo_kaina']."€"; ?>
                         </h6>
-                        <?php
-                        if($qq['statusas'] == 0) {
-                        ?>
-                        <p class="text-info">Laukiama</p>
-  
-                        <?php
-                        } else if($qq['statusas'] == 1) {
-                        ?>
-                        <p class="text-success">Įsigyta</p>
-  
-                        <?php } else { ?>
-                        <p class="text-danger">Nėra parduotuvėje</p>
-  
-                        <?php } ?>
-                        <a href=
-                        "prekes_delete.php?id=<?php echo $qq['id']; ?>" 
-                            class="card-link">
-                            Išimti
-                        </a>
-                        <a href=
-                        "prekes_update.php?id=<?php echo $qq['id']; ?>" 
-                            class="card-link">
-                            Atnaujinti
-                        </a>
-                        <a href=
-                        "prekes_add_to_cart.php?id=<?php echo $qq['id']; ?>"
-                        class="card-link">
-							Pridėti į krepšelį
-                        </a>
+						<?php if (($userlevel == $user_roles["Darbuotojas"] ) || ($userlevel == $user_roles[ADMIN_LEVEL] ))
+						echo	"<a href='prekes_delete.php?id=".$qq['id']."'>  Išimti</a>"; ?>
+						<?php if (($userlevel == $user_roles["Darbuotojas"] ) || ($userlevel == $user_roles[ADMIN_LEVEL] ))
+                        echo	"<a href='prekes_update.php?id=".$qq['id']."'> Atnaujinti </a>"; ?>
+                        <?php if (($userlevel == $user_roles["Darbuotojas"] ) || ($userlevel == $user_roles[ADMIN_LEVEL] ) || ($userlevel == $user_roles["Klientas"] ))
+						echo	"<a href='prekes_add_to_cart.php?id=".$qq['id']."'>Pridėti į krepšelį </a>"; ?>
                         <a href=
                         "prekes_view.php?id=<?php echo $qq['id']; ?>"
                         class="card-link">
