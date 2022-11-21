@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 21, 2022 at 12:32 PM
+-- Generation Time: Nov 21, 2022 at 12:44 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -147,9 +147,7 @@ CREATE TABLE `prekes` (
 
 INSERT INTO `prekes` (`id`, `pavadinimas`, `Pardavimo_kaina`, `Savikaina`, `Nuolaida`, `Kilmes_vieta`, `Siuntimo_kaina`, `Papildoma_informacija`) VALUES
 (7, 'Obuoliai (500 g)', 2.22, 2, 0, 'Kaunas', 0, ''),
-(8, 'Bananai (1 kg)', 0.76, 0, NULL, '', NULL, NULL),
-(9, 'Riešutai (100g)', 1.22, 0, NULL, '', NULL, NULL),
-(10, 'Padanga', 25, 18, NULL, 'Vilnius', NULL, 'Juodi ratai');
+(8, 'Bananai (1 kg)', 0.76, 0, NULL, '', NULL, NULL);
 
 -- --------------------------------------------------------
 
