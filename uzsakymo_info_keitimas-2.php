@@ -66,13 +66,13 @@
 	
 	while($row = mysqli_fetch_assoc($result))
 	{
-		echo "<form method='post'><div><label>Pristatymo norimas laikas</label><input type='datetime-local' class='form-control' name='data' placeholder='Pristatymo normas laikas' value='".$row['data']."'/></div>";
+		echo "<form method='post'><div><label>Pristatymo norimas laikas</label><input type='datetime-local' class='form-control' step='any' name='data' placeholder='Pristatymo normas laikas' required value='".$row['data']."'/></div>";
 
 		$shippment_id = $row['fk_pristatymo_id'];
 		$sql_for_shippment_information = "SELECT * FROM pristatymai INNER JOIN statusai ON pristatymai.statusas = statusai.id WHERE pristatymai.id = $shippment_id";
     	$array_result_shippment = mysqli_query($dbc, $sql_for_shippment_information);
 		$shippment_information = mysqli_fetch_assoc($array_result_shippment);
-		echo "<div class='form-group'><label>Pristatymo adresas</label><input type='text' class='form-control' name='adresas' placeholder='Pristatymo adresas' value='".$shippment_information['adresas']."' /></div>";		
+		echo "<div class='form-group'><label>Pristatymo adresas</label><input required type='text' class='form-control' name='adresas' placeholder='Pristatymo adresas' value='".$shippment_information['adresas']."' /></div>";		
 	} 
 
 	echo "<div class='form-group'><input type='submit' value='Atnaujinti' name='btn' class='btn btn-danger'></div></form>";

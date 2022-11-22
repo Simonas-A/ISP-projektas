@@ -56,9 +56,9 @@
 	
 	while($row = mysqli_fetch_assoc($result))
 	{
-		echo "<form method='post'><div><label>Pristatymo norimas laikas</label><input type='datetime-local' class='form-control' name='data' placeholder='Pristatymo normas laikas' value='".$row['data']."'/></div>";
-		echo "<div class='form-group'><label>Bendra užsakymo kaina</label><input type='text' class='form-control' name='price' placeholder='Bendra užsakymo kaina' value='".$row['kaina']."' /></div>";
-		echo "<div class='form-group'><label>Bendras prekių kiekis</label><input type='text' class='form-control' name='count' placeholder='Bendras prekių kiekis' value='".$row['prekiu_kiekis']."' /></div>";
+		echo "<form method='post'><div><label>Pristatymo norimas laikas</label><input required type='datetime-local' class='form-control' step='any' name='data' placeholder='Pristatymo norimas laikas' value='".$row['data']."'/></div>";
+		echo "<div class='form-group'><label>Bendra užsakymo kaina</label><input required min='0' step='0.01' type='number' class='form-control' name='price' placeholder='Bendra užsakymo kaina' value='".$row['kaina']."' /></div>";
+		echo "<div class='form-group'><label>Bendras prekių kiekis</label><input required min='1' step='1' type='number' class='form-control' name='count' placeholder='Bendras prekių kiekis' value='".$row['prekiu_kiekis']."' /></div>";
 
 		echo "<div class='form-group'><label>Mokėjimo būdas</label><select class='form-control' name='budas' id='budas' multiple>";
 		$sql_for_selection_options = "SELECT * FROM apmokejimo_budai";
@@ -99,8 +99,8 @@
 		}
 		echo "</select></div>";
 		
-		echo "<div class='form-group'><label>Pristatymo adresas</label><input type='text' class='form-control' name='adresas' placeholder='Pristatymo adresas' value='".$shippment_information['adresas']."' /></div>";	
-		echo "<div class='form-group' style='align:left'><input type='hidden' value='false' name='checkboxas'><input class='form-check-input' type='checkbox' value='true' name='checkboxas' id='checkboxas'/><label class='form-check-label' for='checkboxas'>Išsiųsti žinutę į paštą apie nauja siuntos statusą?</label></div>";	
+		echo "<div class='form-group'><label>Pristatymo adresas</label><input required type='text' class='form-control' name='adresas' placeholder='Pristatymo adresas' value='".$shippment_information['adresas']."' /></div>";	
+		echo "<div class='form-group' style='align:left'><input type='hidden' value='false' name='checkboxas'><input class='form-check-input' type='checkbox' value='true' name='checkboxas' id='checkboxas'/><label class='form-check-label' for='checkboxas'>Išsiųsti žinutę į paštą apie nauja siuntos statusą? (Veikia keičiant tik iš užsakyta į pakeliui ir iš pakeliui į atlikta)</label></div>";	
 	} 
 
 	echo "<div class='form-group'><input type='submit' value='Atnaujinti' name='btn' class='btn btn-danger'></div></form>";
