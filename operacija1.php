@@ -1,7 +1,7 @@
 
 <?php
     include("prekes_db_connect.php");
-  
+
     if (isset($_POST['btn'])) {
         $pavadinimas=$_POST['pavadinimas'];
         $q="select * from prekes where pavadinimas='$pavadinimas'";
