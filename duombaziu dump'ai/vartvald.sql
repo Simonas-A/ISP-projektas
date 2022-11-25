@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 21, 2022 at 12:44 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Host: localhost
+-- Generation Time: Nov 25, 2022 at 08:01 PM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -65,6 +65,26 @@ INSERT INTO `apmokejimo_budai` (`id`, `budas`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `krepselis_pagalbinis`
+--
+
+CREATE TABLE `krepselis_pagalbinis` (
+  `userid` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `visas_kiekis` int(11) NOT NULL,
+  `visa_kaina` float NOT NULL,
+  `fk_nuolaidos_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
+
+--
+-- Dumping data for table `krepselis_pagalbinis`
+--
+
+INSERT INTO `krepselis_pagalbinis` (`userid`, `visas_kiekis`, `visa_kaina`, `fk_nuolaidos_id`) VALUES
+('689e5b2971577d707becb97405ede951', 2, 2.98, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `nuolaidos`
 --
 
@@ -83,7 +103,8 @@ CREATE TABLE `nuolaidos` (
 INSERT INTO `nuolaidos` (`id`, `nuolaida`, `galiojimo_pradzia`, `galiojimo_pabaiga`, `panaudojimai`) VALUES
 (1, 2.64, NULL, NULL, 0),
 (2, 5.22, NULL, NULL, 0),
-(3, 1.01, NULL, NULL, 0);
+(3, 1.01, NULL, NULL, 0),
+(10, 10, NULL, NULL, 10);
 
 -- --------------------------------------------------------
 
@@ -148,6 +169,26 @@ CREATE TABLE `prekes` (
 INSERT INTO `prekes` (`id`, `pavadinimas`, `Pardavimo_kaina`, `Savikaina`, `Nuolaida`, `Kilmes_vieta`, `Siuntimo_kaina`, `Papildoma_informacija`) VALUES
 (7, 'Obuoliai (500 g)', 2.22, 2, 0, 'Kaunas', 0, ''),
 (8, 'Bananai (1 kg)', 0.76, 0, NULL, '', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `preke_krepselis_pagalbinis`
+--
+
+CREATE TABLE `preke_krepselis_pagalbinis` (
+  `fk_preke_id` int(11) NOT NULL,
+  `fk_krepselis_id` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `kiekis` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
+
+--
+-- Dumping data for table `preke_krepselis_pagalbinis`
+--
+
+INSERT INTO `preke_krepselis_pagalbinis` (`fk_preke_id`, `fk_krepselis_id`, `kiekis`) VALUES
+(7, '689e5b2971577d707becb97405ede951', 1),
+(8, '689e5b2971577d707becb97405ede951', 1);
 
 -- --------------------------------------------------------
 
@@ -288,7 +329,7 @@ INSERT INTO `users` (`name`, `surname`, `username`, `password`, `userid`, `userl
 ('', '', 'darbuotojas', '16c354b68848cdbd8f54a226a0a55b21', '2721ae19d27ea5033cf23c6cd103ae10', 5, 'darbuotojas@demo.lt', '2022-11-14 23:39:13', '+37065432198', NULL, 'klientas'),
 ('', '', 'valdytojas', 'c2acd92812ef99acd3dcdbb746b9a434', '582e5be8aed3dcdb5d0cf740157e138a', 5, 'D@ltu.lt', '2022-11-21 11:24:11', '+37065432198', NULL, 'klientas'),
 ('Simonas', 'aasd', 'hmm', 'c2acd92812ef99acd3dcdbb746b9a434', '5f2f664dc9cbf6932cfd6246b584016c', 4, 'lol@gmail.com', '2022-11-13 01:41:49', '+37099999999', NULL, 'klientas'),
-('rimas', 'rimauskas', 'rimas', 'c2acd92812ef99acd3dcdbb746b9a434', '689e5b2971577d707becb97405ede951', 9, 'vytas.sa12@gmail.com', '2022-11-21 11:20:10', '0', '', ''),
+('rimas', 'rimauskas', 'rimas', 'c2acd92812ef99acd3dcdbb746b9a434', '689e5b2971577d707becb97405ede951', 9, 'vytas.sa12@gmail.com', '2022-11-25 14:13:50', '0', '', ''),
 ('kostas', 'kostauskas', 'kostas', '1c37511487d38c3ebc4c59650ce2d65a', '69986045e0925262d43addddaf76094f', 5, 'eeee@ll.lt', '2018-02-16 16:04:35', '0', '', ''),
 ('', '', 'klientas', '16c354b68848cdbd8f54a226a0a55b21', '703c4615ea4bdae8bb7eeeb07eacaabd', 4, 'klientas@demo.lt', '2022-11-14 01:01:48', '+37065432198', NULL, 'klientas'),
 ('jonas', 'jonauskas', 'jonas', '64067822105b320085d18e386f57d89a', '9c5ddd54107734f7d18335a5245c286b', 255, 'vytas.sa12@gmail.com', '2017-05-09 17:10:37', '0', '', ''),
@@ -353,6 +394,14 @@ ALTER TABLE `apmokejimo_budai`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `krepselis_pagalbinis`
+--
+ALTER TABLE `krepselis_pagalbinis`
+  ADD PRIMARY KEY (`userid`),
+  ADD KEY `userid` (`userid`),
+  ADD KEY `fk_nuolaidos_id` (`fk_nuolaidos_id`);
+
+--
 -- Indexes for table `nuolaidos`
 --
 ALTER TABLE `nuolaidos`
@@ -379,6 +428,14 @@ ALTER TABLE `pratyboms`
 --
 ALTER TABLE `prekes`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `preke_krepselis_pagalbinis`
+--
+ALTER TABLE `preke_krepselis_pagalbinis`
+  ADD PRIMARY KEY (`fk_preke_id`,`fk_krepselis_id`),
+  ADD KEY `fk_preke_id` (`fk_preke_id`),
+  ADD KEY `fk_krepselis_id` (`fk_krepselis_id`);
 
 --
 -- Indexes for table `preke_pirkimai_tarpinis`
@@ -456,7 +513,7 @@ ALTER TABLE `apmokejimo_budai`
 -- AUTO_INCREMENT for table `nuolaidos`
 --
 ALTER TABLE `nuolaidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `pirkimai`
@@ -517,6 +574,13 @@ ALTER TABLE `apmokejimas`
   ADD CONSTRAINT `apmokejimas_ibfk_1` FOREIGN KEY (`apmokejimo_budas`) REFERENCES `apmokejimo_budai` (`id`);
 
 --
+-- Constraints for table `krepselis_pagalbinis`
+--
+ALTER TABLE `krepselis_pagalbinis`
+  ADD CONSTRAINT `fk_nuolaidos_id` FOREIGN KEY (`fk_nuolaidos_id`) REFERENCES `nuolaidos` (`id`),
+  ADD CONSTRAINT `userid` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`);
+
+--
 -- Constraints for table `pirkimai`
 --
 ALTER TABLE `pirkimai`
@@ -526,11 +590,11 @@ ALTER TABLE `pirkimai`
   ADD CONSTRAINT `pirkimai_ibfk_4` FOREIGN KEY (`fk_vartotojas_id`) REFERENCES `users` (`userid`);
 
 --
--- Constraints for table `preke_pirkimai_tarpinis`
+-- Constraints for table `preke_krepselis_pagalbinis`
 --
-ALTER TABLE `preke_pirkimai_tarpinis`
-  ADD CONSTRAINT `preke_pirkimai_tarpinis_ibfk_1` FOREIGN KEY (`fk_preke_id`) REFERENCES `prekes` (`id`),
-  ADD CONSTRAINT `preke_pirkimai_tarpinis_ibfk_2` FOREIGN KEY (`fk_pirkimas_id`) REFERENCES `pirkimai` (`id`);
+ALTER TABLE `preke_krepselis_pagalbinis`
+  ADD CONSTRAINT `fk_krepselis_id` FOREIGN KEY (`fk_krepselis_id`) REFERENCES `krepselis_pagalbinis` (`userid`),
+  ADD CONSTRAINT `fk_preke_id` FOREIGN KEY (`fk_preke_id`) REFERENCES `prekes` (`id`);
 
 --
 -- Constraints for table `pristatymai`
@@ -538,21 +602,6 @@ ALTER TABLE `preke_pirkimai_tarpinis`
 ALTER TABLE `pristatymai`
   ADD CONSTRAINT `pristatymai_ibfk_1` FOREIGN KEY (`statusas`) REFERENCES `statusai` (`id`),
   ADD CONSTRAINT `pristatymai_ibfk_2` FOREIGN KEY (`fk_vartotojo_id`) REFERENCES `users` (`userid`);
-
---
--- Constraints for table `uzsakymas`
---
-ALTER TABLE `uzsakymas`
-  ADD CONSTRAINT `fk_darbuotojas` FOREIGN KEY (`fk_darbuotojas_id`) REFERENCES `users` (`userid`),
-  ADD CONSTRAINT `fk_statusas` FOREIGN KEY (`fk_statusas`) REFERENCES `statusai` (`id`),
-  ADD CONSTRAINT `fk_tiekejas` FOREIGN KEY (`fk_tiekejas`) REFERENCES `tiekejai` (`id`);
-
---
--- Constraints for table `uzsakymo_preke`
---
-ALTER TABLE `uzsakymo_preke`
-  ADD CONSTRAINT `fk_preke` FOREIGN KEY (`fk_preke`) REFERENCES `prekes` (`id`),
-  ADD CONSTRAINT `fk_uzsakymas` FOREIGN KEY (`fk_uzsakymas`) REFERENCES `uzsakymas` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
