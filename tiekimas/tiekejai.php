@@ -1,12 +1,5 @@
-
 <?php
-    include("../prekes_db_connect.php");
-  
-		$q= "select * from tiekejai";
-        $query=mysqli_query($con,$q);
-    	if(isset($_POST["btn1"])) {
-			 header("../location:index.php");
-	}
+    include("tiekeju_valdiklis.php");
 ?>
   
 <html>
@@ -49,27 +42,27 @@
 			</thead>
 			<tbody>
 			<?php
-                while ($qq=mysqli_fetch_array($query)) 
+                $tiekejai = tiekeju_sarasas(); 
+                foreach ($tiekejai as $tiekejas)
                 {
             ?>
 			
 			<tr>
-				<td><?php echo $qq['id']; ?></td>
-				<td><?php echo $qq['pavadinimas']; ?></td>
-				<td><?php echo $qq['adresas']; ?></td>
-				<td><?php echo $qq['miestas']; ?></td>
-				<td><?php echo $qq['epastas']; ?></td>
+				<td><?php echo $tiekejas['id']; ?></td>
+				<td><?php echo $tiekejas['pavadinimas']; ?></td>
+				<td><?php echo $tiekejas['adresas']; ?></td>
+				<td><?php echo $tiekejas['miestas']; ?></td>
+				<td><?php echo $tiekejas['epastas']; ?></td>
 				<td><a href=
-                        "redaguoti_tiekeja.php?id=<?php echo $qq['id']; ?>" 
+                        "redaguoti_tiekeja.php?id=<?php echo $tiekejas['id']; ?>" 
                             class="btn btn-outline-success">
                             Redaguoti
                      </a>
 				</td>
-				<td><a href=
-                        "pasalinti_tiekeja.php?id=<?php echo $qq['id']; ?>" 
-                            class="btn btn-outline-danger">
-                            Pašalinti
-                        </a>
+				<td>
+                    <form method="post" action="tiekeju_valdiklis.php?id=<?php echo $tiekejas['id']; ?>" onsubmit="return confirm('Ar tikrai norite šalinti šį tiekėją?');">
+                        <input type="submit" value="Pašalinti" name="salinti_tiekeja" class="btn btn-outline-danger">
+                    </form>
 				</td>
 			</tr>
 			

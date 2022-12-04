@@ -1,27 +1,8 @@
 <?php
-    include("../prekes_db_connect.php");
-    if(isset($_POST['btn']))
-    {
-        $pavadinimas=$_POST['pavadinimas'];
-		$adresas=$_POST['adresas'];
-		$miestas=$_POST['miestas'];
-		$epastas=$_POST['epastas'];
-        $id = $_GET['id'];
-        $q= "update tiekejai set pavadinimas='$pavadinimas', adresas='$adresas', 
-        miestas='$miestas', epastas='$epastas' where id=$id";
-        $query=mysqli_query($con,$q);
-        header('location:tiekejai.php');
-    } 
-    else if(isset($_GET['id'])) 
-    {
-        $q = "SELECT * FROM tiekejai WHERE Id='".$_GET['id']."'";
-        $query=mysqli_query($con,$q);
-        $res= mysqli_fetch_array($query);
-    }
-	         if(isset($_POST["btn1"])) {
-			 header("location:tiekejai.php");
-		 }
+    include("tiekeju_valdiklis.php");
+    $tiekejas = grazinti_tiekeja($_GET['id']);
 ?>
+
 <html>
   
 <head>
@@ -38,15 +19,14 @@
 <body>
     <div class="container mt-5">
         <h1>Redaguoti tiekėją</h1>
-        <form method="post">
+        <form method="post" action="tiekeju_valdiklis.php?id=<?php echo $tiekejas['id']; ?>">
             <div class="form-group">
                 <label>Pavadinimas</label>
                 <input type="text" 
                     class="form-control" 
                     name="pavadinimas" 
                     placeholder="Pavadinimas" 
-                    value=
-        "<?php echo $res['pavadinimas'];?>" />
+                    value= "<?php echo $tiekejas['pavadinimas'];?>" required/>
             </div>
   
             <div class="form-group">
@@ -55,7 +35,7 @@
                     class="form-control" 
                     name="adresas" 
                     placeholder="Adresas" 
-value="<?php echo $res['adresas'];?>" />
+                    value="<?php echo $tiekejas['adresas'];?>" required/>
             </div>
 			
 			<div class="form-group">
@@ -64,29 +44,28 @@ value="<?php echo $res['adresas'];?>" />
                     class="form-control" 
                     name="miestas" 
                     placeholder="Miestas" 
-value="<?php echo $res['miestas'];?>" />
+                    value="<?php echo $tiekejas['miestas'];?>" required/>
             </div>
   
             <div class="form-group">
                 <label>E. paštas</label>
-                <input type="text" 
+                <input type="email" 
                     class="form-control" 
                     name="epastas" 
                     placeholder="E. paštas" 
-value="<?php echo $res['epastas'];?>" />
+                    value="<?php echo $tiekejas['epastas'];?>" required/>
             </div>
 			
             <div class="form-group">
                 <input type="submit" value="Atnaujinti" 
-                    name="btn" class="btn btn-danger">
+                    name="redaguoti_tiekeja" class="btn btn-danger">
             </div>
-		<div class="form-group">
-                <input type="submit" 
-                    value="Grįžti" 
-                    class="btn btn-danger" 
-                    name="btn1">
-            </div>  
         </form>
+            <a href=
+			"tiekejai.php" 
+			class="btn btn-danger">
+			Grįžti
+        </a>
     </div>
 </body>
   
