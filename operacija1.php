@@ -42,7 +42,9 @@
 					include "include/nustatymai.php";
 					$userlevel=$_SESSION['ulevel'];
 				if (($userlevel == $user_roles["Darbuotojas"] ) || ($userlevel == $user_roles[ADMIN_LEVEL] ))
-                echo "<a href='prideti_preke.php'>Pridėti prekę</a>"; ?>
+                echo "<a href='prideti_preke.php'>Pridėti prekę</a>";
+				echo "     ";
+			    echo "<a href='prekes_nuolaida.php'>Nuolaidos</a>"; ?>
             </div>
             <div class="col-lg-4">
                 <div class="row">
