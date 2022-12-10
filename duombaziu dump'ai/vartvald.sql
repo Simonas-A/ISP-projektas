@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 25, 2022 at 08:01 PM
+-- Generation Time: Dec 10, 2022 at 04:52 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.1.6
 
@@ -80,7 +80,7 @@ CREATE TABLE `krepselis_pagalbinis` (
 --
 
 INSERT INTO `krepselis_pagalbinis` (`userid`, `visas_kiekis`, `visa_kaina`, `fk_nuolaidos_id`) VALUES
-('689e5b2971577d707becb97405ede951', 2, 2.98, NULL);
+('689e5b2971577d707becb97405ede951', 2, 2.682, 10);
 
 -- --------------------------------------------------------
 
@@ -226,17 +226,34 @@ CREATE TABLE `pristatymai` (
   `statusas` int(11) NOT NULL,
   `fk_vartotojo_id` varchar(32) CHARACTER SET utf8 NOT NULL,
   `mokestis` float NOT NULL,
-  `budas` varchar(32) CHARACTER SET utf8 NOT NULL
+  `budas` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `atsiimantis_asmuo` varchar(255) CHARACTER SET utf8 COLLATE utf8_lithuanian_ci DEFAULT NULL,
+  `komentaras` varchar(255) CHARACTER SET utf8 COLLATE utf8_lithuanian_ci DEFAULT '-'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `pristatymai`
 --
 
-INSERT INTO `pristatymai` (`id`, `adresas`, `data`, `statusas`, `fk_vartotojo_id`, `mokestis`, `budas`) VALUES
-(1, 'Mažeikiai, Zeniaus g. 42', '2022-11-10 18:42:52', 1, '689e5b2971577d707becb97405ede951', 1.45, 'LP EXPRESS'),
-(2, 'Alytus, Petro g. 22', '2022-11-24 17:44:28', 2, '689e5b2971577d707becb97405ede951', 1.45, 'LP EXPRESS'),
-(3, 'adresas', '2022-11-12 21:37:19', 3, '689e5b2971577d707becb97405ede951', 1.8, 'LPASTAS');
+INSERT INTO `pristatymai` (`id`, `adresas`, `data`, `statusas`, `fk_vartotojo_id`, `mokestis`, `budas`, `atsiimantis_asmuo`, `komentaras`) VALUES
+(1, 'Mažeikiai, Zeniaus g. 42', '2022-11-10 18:42:52', 1, '689e5b2971577d707becb97405ede951', 1.45, 'LP EXPRESS', NULL, '-'),
+(2, 'Alytus, Petro g. 22', '2022-11-24 17:44:28', 2, '689e5b2971577d707becb97405ede951', 1.45, 'LP EXPRESS', NULL, '-'),
+(3, 'adresas', '2022-11-12 21:37:19', 3, '689e5b2971577d707becb97405ede951', 1.8, 'LPASTAS', NULL, '-');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pristatymai_pagalbinis`
+--
+
+CREATE TABLE `pristatymai_pagalbinis` (
+  `adresas` text NOT NULL,
+  `fk_vartotojo_id` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `mokestis` float NOT NULL,
+  `budas` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `atsiimantis_asmuo` varchar(255) CHARACTER SET utf8 COLLATE utf8_lithuanian_ci DEFAULT NULL,
+  `komentaras` varchar(255) CHARACTER SET utf8 COLLATE utf8_lithuanian_ci DEFAULT '-'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -329,7 +346,7 @@ INSERT INTO `users` (`name`, `surname`, `username`, `password`, `userid`, `userl
 ('', '', 'darbuotojas', '16c354b68848cdbd8f54a226a0a55b21', '2721ae19d27ea5033cf23c6cd103ae10', 5, 'darbuotojas@demo.lt', '2022-11-14 23:39:13', '+37065432198', NULL, 'klientas'),
 ('', '', 'valdytojas', 'c2acd92812ef99acd3dcdbb746b9a434', '582e5be8aed3dcdb5d0cf740157e138a', 5, 'D@ltu.lt', '2022-11-21 11:24:11', '+37065432198', NULL, 'klientas'),
 ('Simonas', 'aasd', 'hmm', 'c2acd92812ef99acd3dcdbb746b9a434', '5f2f664dc9cbf6932cfd6246b584016c', 4, 'lol@gmail.com', '2022-11-13 01:41:49', '+37099999999', NULL, 'klientas'),
-('rimas', 'rimauskas', 'rimas', 'c2acd92812ef99acd3dcdbb746b9a434', '689e5b2971577d707becb97405ede951', 9, 'vytas.sa12@gmail.com', '2022-11-25 14:13:50', '0', '', ''),
+('rimas', 'rimauskas', 'rimas', 'c2acd92812ef99acd3dcdbb746b9a434', '689e5b2971577d707becb97405ede951', 9, 'vytas.sa12@gmail.com', '2022-12-10 13:16:15', '0', '', ''),
 ('kostas', 'kostauskas', 'kostas', '1c37511487d38c3ebc4c59650ce2d65a', '69986045e0925262d43addddaf76094f', 5, 'eeee@ll.lt', '2018-02-16 16:04:35', '0', '', ''),
 ('', '', 'klientas', '16c354b68848cdbd8f54a226a0a55b21', '703c4615ea4bdae8bb7eeeb07eacaabd', 4, 'klientas@demo.lt', '2022-11-14 01:01:48', '+37065432198', NULL, 'klientas'),
 ('jonas', 'jonauskas', 'jonas', '64067822105b320085d18e386f57d89a', '9c5ddd54107734f7d18335a5245c286b', 255, 'vytas.sa12@gmail.com', '2017-05-09 17:10:37', '0', '', ''),
@@ -450,6 +467,13 @@ ALTER TABLE `preke_pirkimai_tarpinis`
 ALTER TABLE `pristatymai`
   ADD PRIMARY KEY (`id`),
   ADD KEY `statusas` (`statusas`),
+  ADD KEY `pristatymai_ibfk_2` (`fk_vartotojo_id`);
+
+--
+-- Indexes for table `pristatymai_pagalbinis`
+--
+ALTER TABLE `pristatymai_pagalbinis`
+  ADD PRIMARY KEY (`fk_vartotojo_id`) USING BTREE,
   ADD KEY `pristatymai_ibfk_2` (`fk_vartotojo_id`);
 
 --
@@ -602,6 +626,12 @@ ALTER TABLE `preke_krepselis_pagalbinis`
 ALTER TABLE `pristatymai`
   ADD CONSTRAINT `pristatymai_ibfk_1` FOREIGN KEY (`statusas`) REFERENCES `statusai` (`id`),
   ADD CONSTRAINT `pristatymai_ibfk_2` FOREIGN KEY (`fk_vartotojo_id`) REFERENCES `users` (`userid`);
+
+--
+-- Constraints for table `pristatymai_pagalbinis`
+--
+ALTER TABLE `pristatymai_pagalbinis`
+  ADD CONSTRAINT `pagalbinis_pristatymai_vartotojas` FOREIGN KEY (`fk_vartotojo_id`) REFERENCES `users` (`userid`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
