@@ -20,15 +20,15 @@
     Užsakymas įvykdytas sėkmingai.
     </h4>
 
-<form method="post" action="index.php">
+<form method="post" action="../index.php">
 <div class="col-lg-4">
     <input type="submit"
         value="Grįžti"
         class="btn btn-danger"
         name="btnback">
 </div>
-</div>
 </form>
+</div>
 
 </body>
 </html>

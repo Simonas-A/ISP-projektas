@@ -17,60 +17,107 @@
     if(isset($_POST["coupon"])) {
         $kodas = $_POST['kodas'];
         $check = mysqli_query($con, "SELECT * from nuolaidos WHERE id = '$kodas'");
+
         if (!$check)
         {
             die('Error: ' . mysqli_error($con));
         }
 
         if(mysqli_num_rows($check) > 0) {
-            $sqlpritaikyti = "
-            UPDATE krepselis_pagalbinis 
-            SET fk_nuolaidos_id = '$kodas', visa_kaina = visa_kaina*( 1- ('$kodas'/100))
-            WHERE userid = '$userid'
-        ";
-            if (!mysqli_query($con, $sqlpritaikyti)) die ("Klaida įrašant:" .mysqli_error($con));
-            $wholesum= "SELECT round(visa_kaina, 2) AS visa_kaina FROM krepselis_pagalbinis WHERE userid='$userid' LIMIT 1";
-            $wholesum_query=mysqli_query($con,$wholesum);
-            $wholesum_queryquery=mysqli_fetch_array($wholesum_query);
-            $visakaina = $wholesum_queryquery['visa_kaina'];
-            ?>
+            $check=mysqli_fetch_array($check);
+            $start_date = $check['galiojimo_pradzia'];
+            $end_date = $check['galiojimo_pabaiga'];
+            $uses = $check['panaudojimai'];
+            $coupon_id = $kodas;
+            $_SESSION['coupon_id'] = $coupon_id;
+            $current_time = $date = date('Y-m-d h:i:s a');
+            if (($current_time >= $start_date) && ($current_time <= $end_date) && ($uses != 0)) {
+                $sqlpritaikyti = "
+                                UPDATE krepselis_pagalbinis 
+                                SET fk_nuolaidos_id = '$kodas', visa_kaina = visa_kaina*( 1- ('$kodas'/100))
+                                WHERE userid = '$userid'";
+                if (!mysqli_query($con, $sqlpritaikyti)) die ("Klaida įrašant:" .mysqli_error($con));
+                $wholesum= "SELECT round(visa_kaina, 2) AS visa_kaina FROM krepselis_pagalbinis WHERE userid='$userid' LIMIT 1";
+                $wholesum_query=mysqli_query($con,$wholesum);
+                $wholesum_queryquery=mysqli_fetch_array($wholesum_query);
+                $visakaina = $wholesum_queryquery['visa_kaina'];
+                ?>
 
-            <html>
+                <html>
 
-            <head>
-                <meta http-equiv="Content-Type"
-                      content="text/html; charset=UTF-8">
+                <head>
+                    <meta http-equiv="Content-Type"
+                          content="text/html; charset=UTF-8">
 
-                <title>View List</title>
+                    <title>View List</title>
 
-                <link rel="stylesheet" href=
-                "https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+                    <link rel="stylesheet" href=
+                    "https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
-                <link rel="stylesheet"
-                      href="css/style.css">
-            </head>
+                    <link rel="stylesheet"
+                          href="css/style.css">
+                </head>
 
-            <body>
+                <body>
 
-            <div class="container" style="margin-top: 50px;">
-                <h4>
-                    Nuolaidos kodas pritaikytas!
-                    Nauja užsakymo suma: <?php echo $visakaina; echo " €"; ?>
-                </h4>
+                <div class="container" style="margin-top: 50px;">
+                    <h4>
+                        Nuolaidos kodas pritaikytas!
+                        Nauja užsakymo suma: <?php echo $visakaina; echo " €"; ?>
+                    </h4>
 
-                <form method="post" action="krepselis.php">
-                    <div class="col-lg-4">
-                        <input type="submit"
-                               value="Supratau"
-                               class="btn btn-danger"
-                               name="btnback">
-                    </div>
-            </div>
-            </form>
+                    <form method="post" action="krepselis.php">
+                        <div class="col-lg-4">
+                            <input type="submit"
+                                   value="Supratau"
+                                   class="btn btn-danger"
+                                   name="btnback">
+                        </div>
+                </div>
+                </form>
 
-            </body>
-            </html>
-            <?php
+                </body>
+                </html>
+                <?php
+            } else {
+                ?>
+
+                <html>
+
+                <head>
+                    <meta http-equiv="Content-Type"
+                          content="text/html; charset=UTF-8">
+
+                    <title>View List</title>
+
+                    <link rel="stylesheet" href=
+                    "https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+                    <link rel="stylesheet"
+                          href="css/style.css">
+                </head>
+
+                <body>
+
+                <div class="container" style="margin-top: 50px;">
+                    <h4>
+                        Nuolaidos kodas nebegalioja arba neegzistuoja!
+                    </h4>
+
+                    <form method="post" action="krepselis.php">
+                        <div class="col-lg-4">
+                            <input type="submit"
+                                   value="Supratau"
+                                   class="btn btn-danger"
+                                   name="btnback">
+                        </div>
+                </div>
+                </form>
+
+                </body>
+                </html>
+                <?php
+            }
         } else {
             ?>
 
@@ -144,7 +191,6 @@
             } else if ($delivery_type == "LP EXPRESS") {
                 $mokestis = 1.45;
             } else {
-                echo "dpd";
                 $mokestis = 1.6;
             }
         }
@@ -228,7 +274,58 @@
 
         </body>
         </html>
+
         <?php
+    }
+
+    if(isset($_POST["payup"])) {
+        $delivery_applied = "SELECT fk_vartotojo_id FROM pristatymai_pagalbinis WHERE fk_vartotojo_id='$userid' LIMIT 1";
+        $delivery_applied_query=mysqli_query($con,$delivery_applied);
+        $delivery_applied_queryquery=mysqli_fetch_array($delivery_applied_query);
+        $doesDeliveryExist = $delivery_applied_queryquery['fk_vartotojo_id'];
+        if (is_null($doesDeliveryExist)) {
+            ?>
+
+            <html>
+
+            <head>
+                <meta http-equiv="Content-Type"
+                      content="text/html; charset=UTF-8">
+
+                <title>View List</title>
+
+                <link rel="stylesheet" href=
+                "https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+                <link rel="stylesheet"
+                      href="css/style.css">
+            </head>
+
+            <body>
+
+            <div class="container" style="margin-top: 50px;">
+                <h4>
+                    Neužpildyti pristatymo duomenys! <br>
+                    Pirmiausia užpildykite pristatymo duomenis, tuomet galėsite apmokėti!
+                </h4>
+
+                <form method="post" action="krepselis.php">
+                    <div class="col-lg-4">
+                        <input type="submit"
+                               value="Supratau"
+                               class="btn btn-danger"
+                               name="btnback">
+                    </div>
+            </div>
+            </form>
+
+            </body>
+            </html>
+
+            <?php
+        } else {
+            header("location:payment.php");
+        }
     }
 ?>
 
@@ -384,6 +481,7 @@ if (mysqli_num_rows($query)!=0) {
                         echo nl2br ("Atsiimantis asmuo: $existing_person_responsible\n");
                         echo nl2br ("Komentaras: $existing_comment\n");
                         $galutine_kaina = $visakaina + $existing_delivery_cost;
+                        $_SESSION['galutine_kaina'] = $galutine_kaina;
                         ?>
                     </p>
                 </h6>
@@ -403,12 +501,12 @@ if (mysqli_num_rows($query)!=0) {
                     <?php echo $galutine_kaina; echo " €"; ?>
                 </p>
             </h6>
-            <form method="post" action="payment.php">
+            <form method="post">
             <div style="text-align: right;">
                 <input type="submit"
                     value="Apmokėti"
                     class="btn btn-danger"
-                    name="btn1" required>
+                    name="payup" required>
             </div>
             </form>
 <?php
