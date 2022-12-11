@@ -1,3 +1,20 @@
+<?php
+    session_start();
+
+    if ($_SESSION['user'] == "guest") {
+        $_SESSION['kicked'] = 'yes';
+        $_SESSION['message'] = 'Bandėte patekti į payment_confirmation.php puslapį, tačiau tam neturite privilegijų';
+        header("Location: ../logout.php");
+        exit;
+    }
+    if (($_SESSION['prev'] != "payment") && ($_SESSION['prev'] != "payment_card")) {
+        $_SESSION['kicked'] = 'yes';
+        $_SESSION['message'] = 'Bandėte patekti į payment_confirmation.php puslapį, tačiau taip negalima';
+        header("Location: ../logout.php");
+        exit;
+    }
+    $_SESSION['prev'] = 'payment_confirmation';
+?>
 <html>
 
 <head>

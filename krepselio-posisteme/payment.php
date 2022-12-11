@@ -6,6 +6,19 @@
     }
     $userid = $_SESSION['userid'];
 
+    if ($_SESSION['user'] == "guest") {
+        $_SESSION['kicked'] = 'yes';
+        $_SESSION['message'] = 'Bandėte patekti į payment.php puslapį, tačiau tam neturite privilegijų';
+        header("Location: ../logout.php");
+        exit;
+    }
+    if (($_SESSION['prev'] != "krepselis") && ($_SESSION['prev'] != "payment") && ($_SESSION['prev'] != "payment_card") && ($_SESSION['prev'] != "payment_bank")) {
+        $_SESSION['kicked'] = 'yes';
+        $_SESSION['message'] = 'Bandėte patekti į payment.php puslapį, tačiau taip negalima';
+        header("Location: ../logout.php");
+        exit;
+    }
+    $_SESSION['prev'] = 'payment';
 //    $q = "
 //            INSERT INTO preke_pirkimai_tarpinis (fk_preke_id, kiekis) VALUES ((SELECT id from prekes where Id = $id), 1)
 //    ";

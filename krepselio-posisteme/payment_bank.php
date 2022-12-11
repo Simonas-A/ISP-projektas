@@ -4,6 +4,20 @@ $con=mysqli_connect("localhost","root","","vartvald");
 if(!$con) {
     die("cannot connect to server");
 }
+if ($_SESSION['user'] == "guest") {
+    $_SESSION['kicked'] = 'yes';
+    $_SESSION['message'] = 'Bandėte patekti į payment_bank.php puslapį, tačiau tam neturite privilegijų';
+    header("Location: ../logout.php");
+    exit;
+}
+if (($_SESSION['prev'] != "payment") && ($_SESSION['prev'] != "payment_bank")) {
+    $_SESSION['kicked'] = 'yes';
+    $_SESSION['message'] = 'Bandėte patekti į payment_bank.php puslapį, tačiau taip negalima';
+    header("Location: ../logout.php");
+    exit;
+}
+$_SESSION['prev'] = 'payment_bank';
+
 $userid = $_SESSION['userid'];
 $galutine_kaina = $_SESSION['galutine_kaina'];
 if (isset($_POST["confirmation"])) {

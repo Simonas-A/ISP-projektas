@@ -4,11 +4,28 @@ $con=mysqli_connect("localhost","root","","vartvald");
 if(!$con) {
     die("cannot connect to server");
 }
+
+if ($_SESSION['user'] == "guest") {
+    $_SESSION['kicked'] = 'yes';
+    $_SESSION['message'] = 'Bandėte patekti į payment_card.php puslapį, tačiau tam neturite privilegijų';
+    header("Location: ../logout.php");
+    exit;
+}
+if (($_SESSION['prev'] != "payment") && ($_SESSION['prev'] != "payment_card")) {
+    $_SESSION['kicked'] = 'yes';
+    $_SESSION['message'] = 'Bandėte patekti į payment_card.php puslapį, tačiau taip negalima';
+    header("Location: ../logout.php");
+    exit;
+}
+$_SESSION['prev'] = 'payment_card';
+
 $userid = $_SESSION['userid'];
 if (isset($_POST["card_info"])) {
     $month = $_POST['month'];
+    $year = $_POST['year'];
     $current_month =date('m');
-    if ($month > $current_month) {
+    $current_year =date('Y');
+    if (($year >= $current_year)) {
         $get_delivery_sql = "SELECT * FROM pristatymai_pagalbinis WHERE fk_vartotojo_id='$userid' LIMIT 1";
         $delivery_query = mysqli_query($con, $get_delivery_sql);
         $delivery_qq = mysqli_fetch_array($delivery_query);
@@ -134,13 +151,19 @@ if (isset($_POST["card_info"])) {
     <form method='post'>
         <div class="form-group col-lg-4">
             <label for="adresas" class="control-label">Kortelės nr:</label>
-            <input name='adresas' type='text' class="form-control input-sm" required pattern="(?:\d{4} ){3}\d{4}">
+            <input name='adresas' type='text' class="form-control input-sm" required pattern="(?:\d{4} ){3}\d{4}"
+                   oninput="setCustomValidity(''); checkValidity(); setCustomValidity(validity.valid ? '' :'Neįvestas arba neteisingai įvestas kortelės numeris);"
+                   oninvalid="setCustomValidity(''); checkValidity(); setCustomValidity(validity.valid ? '' :'Neįvestas arba neteisingai įvestas kortelės numeris');"/>
             <br>
             <label for="adresas" class="control-label">Vardas Pavardė:</label>
-            <input name='adresas' type='text' class="form-control input-sm" required pattern="^[A-ZĄČĘĖĮŠŲŪ][a-ząčęėįšųū]+\s[A-ZĄČĘĖĮŠŲŪ][a-ząčęėįšųū]+$">
+            <input name='adresas' type='text' class="form-control input-sm" required pattern="^[A-ZĄČĘĖĮŠŲŪ][a-ząčęėįšųū]+\s[A-ZĄČĘĖĮŠŲŪ][a-ząčęėįšųū]+$"
+                   oninput="setCustomValidity(''); checkValidity(); setCustomValidity(validity.valid ? '' :'Neįvestas arba neteisingai įvestas vardas ir pavardė);"
+                   oninvalid="setCustomValidity(''); checkValidity(); setCustomValidity(validity.valid ? '' :'Neįvestas arba neteisingai įvestas nuolaidos kodas');"/>
             <br>
             <label for="adresas" class="control-label">CVC:</label>
-            <input name='adresas' type='text' class="form-control input-sm" required pattern="^[0-9]{3}$">
+            <input name='adresas' type='text' class="form-control input-sm" required pattern="^[0-9]{3}$"
+                   oninput="setCustomValidity(''); checkValidity(); setCustomValidity(validity.valid ? '' :'Neįvestas arba neteisingai įvestas kortelės CVC);"
+                   oninvalid="setCustomValidity(''); checkValidity(); setCustomValidity(validity.valid ? '' :'Neįvestas arba neteisingai įvestas kortelės CVC');"/>
             <br>
             <label for="adresas" class="control-label">Galioja iki:</label>
             <br>
@@ -155,7 +178,7 @@ if (isset($_POST["card_info"])) {
             <label for="adresas" class="control-label">Metai:</label>
             <select name="year" size='1'>
                 <?php
-                for ($i = (int)date('Y'); $i < (int)date('Y')+6; $i++) {
+                for ($i = (int)date('Y')+1; $i < (int)date('Y')+7; $i++) {
                     echo "<option value='$i'>$i</option>";
                 }
                 ?>

@@ -1,11 +1,21 @@
 
 <?php
     session_start();
+    include "include/nustatymai.php";
+    $userlevel=$_SESSION['ulevel'];
     $con=mysqli_connect("localhost","root","","vartvald");
     if(!$con) {
         die("cannot connect to server");
     }
     $userid = $_SESSION['userid'];
+
+    if ($_SESSION['user'] == "guest") {
+        $_SESSION['kicked'] = 'yes';
+        $_SESSION['message'] = 'Bandėte patekti į krepselis.php puslapį, tačiau tam neturite privilegijų';
+        header("Location: ../logout.php");
+        exit;
+    }
+    $_SESSION['prev'] = 'krepselis';
 
     $q = "SELECT t.fk_preke_id, t.kiekis, u.pavadinimas AS pavadinimas, ROUND(u.Pardavimo_kaina*t.kiekis, 2) AS prekes_kaina FROM preke_krepselis_pagalbinis t LEFT JOIN prekes u ON t.fk_preke_id = u.id WHERE fk_krepselis_id = '$userid'";
     //$q= "SELECT prekes.*, preke_krepselis_pagalbinis.* FROM prekes JOIN preke_krepselis_pagalbinis ON id = fk_preke_id WHERE fk_krepselis_id ='$userid'";
@@ -420,7 +430,9 @@ if (mysqli_num_rows($query)!=0) {
             <form method='post'>
                 <div class="form-group col-lg-4" style="margin-left: auto; margin-right: 0;">
                 <label for="kodas" class="control-label">Pritaikyti nuolaidos kodą:</label>
-                    <input name='kodas' type='text' class="form-control input-sm" required>
+                    <input name='kodas' type='text' class="form-control input-sm" required pattern="(([1-9]{1})|([1-9]{1}[0-9]{1,}))"
+                           oninput="setCustomValidity(''); checkValidity(); setCustomValidity(validity.valid ? '' :'Neįvestas arba neteisingai įvestas nuolaidos kodas);"
+                           oninvalid="setCustomValidity(''); checkValidity(); setCustomValidity(validity.valid ? '' :'Neįvestas arba neteisingai įvestas nuolaidos kodas');"/>
                     <input type='submit' name='coupon' value='pritaikyti' class="btnbtn-default" required >
                 </div>
             </form>
@@ -448,7 +460,9 @@ if (mysqli_num_rows($query)!=0) {
             <form method='post'>
                 <div class="form-group col-lg-4">
                     <label for="address" class="control-label">Adresas:</label>
-                    <input name='address' type='text' class="form-control input-sm" required placeholder="Privaloma (miestas, gatvė, namo nr.)">
+                    <input name='address' type='textarea' class="form-control input-sm" required placeholder="pvz: Kaunas, Vilniaus g. 9" pattern="^[A-ZĄČĘĖĮŠŲŪ][a-ząčęėįšųū]+,\s[A-ZĄČĘĖĮŠŲŪ][a-ząčęėįšųū]+\s[g][.]\s[0-9]+$"
+                           oninput="setCustomValidity(''); checkValidity(); setCustomValidity(validity.valid ? '' :'Neįvestas arba neteisingai įvestas adresas');"
+                           oninvalid="setCustomValidity(''); checkValidity(); setCustomValidity(validity.valid ? '' :'Neįvestas arba neteisingai įvestas adresas');"/>
                     <label for="delivery_type">Pasirinkite pristatymo būdą:</label>
                     <select name="delivery_type" id="delivery_type">
                         <option value="LPASTAS">LPASTAS +1.8€</option>
@@ -456,7 +470,9 @@ if (mysqli_num_rows($query)!=0) {
                         <option value="DPD">DPD +1.6€</option>
                     </select>
                     <label for="person_responsible" class="control-label">Prekę atsiimančio asmens vardas ir pavardė:</label>
-                    <input name='person_responsible' type='textarea' class="form-control input-sm" placeholder="Neprivaloma">
+                    <input name='person_responsible' type='textarea' class="form-control input-sm" placeholder="Neprivaloma" pattern="^[A-ZĄČĘĖĮŠŲŪ][a-ząčęėįšųū]+\s[A-ZĄČĘĖĮŠŲŪ][a-ząčęėįšųū]+$"
+                           oninput="setCustomValidity(''); checkValidity(); setCustomValidity(validity.valid ? '' :'Neįvestas arba neteisingai įvestas vardas ir pavardė');"
+                           oninvalid="setCustomValidity(''); checkValidity(); setCustomValidity(validity.valid ? '' :'Neįvestas arba neteisingai įvestas vardas ir pavardė');"/>
                     <label for="comment" class="control-label">Komentaras:</label>
                     <input name='comment' type='textarea' class="form-control input-sm" placeholder="Neprivaloma">
                     <input type='submit' name='submit_delivery' value='patvirtinti pristatymo duomenis' class="btnbtn-default" required >
