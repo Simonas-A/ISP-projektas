@@ -61,6 +61,11 @@
         </html>
     <?php
     } else {
+        $userid = $_SESSION['userid'];
+        $krepselis_query = "
+        INSERT IGNORE INTO krepselis_pagalbinis (userid, visas_kiekis, visa_kaina) VALUES ('$userid',0,0)
+    ";
+        mysqli_query($con, $krepselis_query);
                $krepselis_query = "
         INSERT INTO preke_krepselis_pagalbinis (fk_preke_id, fk_krepselis_id, kiekis) VALUES ('$id','$userid',1)
     ";

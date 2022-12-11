@@ -6,18 +6,7 @@
 
 session_start();
 include("include/functions.php");
-
-// Krepselio posistemei, krepselis_pagalbinis lentelei sukurimui
-$con=mysqli_connect("localhost","root","","vartvald");
-if(!$con)
-{
-    die("cannot connect to server");
-}
-$userid = $_SESSION['userid'];
-$krepselis_query = "
-        INSERT IGNORE INTO krepselis_pagalbinis (userid, visas_kiekis, visa_kaina) VALUES ('$userid',0,0)
-    ";
-mysqli_query($con,$krepselis_query);
+include "include/nustatymai.php";
 
 ?>
 

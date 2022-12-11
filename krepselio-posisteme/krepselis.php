@@ -345,7 +345,7 @@
 </head>
   
 <body>
-    <div class="container mt-5">
+    <div style="width: 100%;" class="container mt-5">
 
         <!-- top -->
         <div class="row">
@@ -509,6 +509,16 @@ if (mysqli_num_rows($query)!=0) {
                     name="payup" required>
             </div>
             </form>
+
+        <form method="post" action="../index.php">
+            <div class="col-lg-4">
+                <input type="submit"
+                       value="Grįžti"
+                       class="btn btn-danger"
+                       name="btn1">
+            </div>
+        </form>
+    </div>
 <?php
 } else {
     ?>
@@ -516,20 +526,18 @@ if (mysqli_num_rows($query)!=0) {
     <h6>
         Krepšelyje nėra prekių.
     </h6>
+        <form method="post" action="../index.php">
+            <div class="col-lg-4">
+                <input type="submit"
+                       value="Grįžti"
+                       class="btn btn-danger"
+                       name="btn1">
+            </div>
+        </form>
     </div>
 <?php
 }
 ?>
-            <form method="post" action="../index.php">
-            <div class="col-lg-4">
-                <input type="submit"
-                    value="Grįžti"
-                    class="btn btn-danger"
-                    name="btn1">
-            </div>
-            </form>
-
-    </div>
 
 </body>
   

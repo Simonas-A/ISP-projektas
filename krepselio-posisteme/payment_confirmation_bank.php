@@ -1,3 +1,9 @@
+<?php
+session_start();
+$galutine_kaina = $_SESSION['galutine_kaina'];
+$pirkimai_last_id = $_SESSION['pirkimai_last_id'];
+?>
+
 <html>
 
 <head>
@@ -16,10 +22,14 @@
 <body>
 
 <div class="container" style="margin-top: 50px;">
-    <h4>
+    <h4> Mokėjimo duomenys: </h4>
+        <p> Bankas: KtuBankas </p>
+        <p> Banko sąskaita: 121212121212KTU </p>
+        <p> Suma: <?php echo $galutine_kaina; echo " €"; ?> </p>
+        <p> Paskirtis: Užsakymas nr. <?php echo $pirkimai_last_id; ?> </p>
     Užsakymas priimtas, bus pradėtas vykdyti gavus apmokėjimą.
     </h4>
-    <form method="post" action="index.php">
+    <form method="post" action="../index.php">
     <div class="col-lg-4">
         <input type="submit"
             value="Grįžti"
