@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Dec 11, 2022 at 05:41 PM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 8.1.6
+-- Host: 127.0.0.1
+-- Generation Time: Dec 12, 2022 at 03:44 PM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -79,6 +79,26 @@ INSERT INTO `apmokejimo_budai` (`id`, `budas`) VALUES
 (1, 'Kortele'),
 (2, 'Grynais'),
 (3, 'Banko pavedimu');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inventorius`
+--
+
+CREATE TABLE `inventorius` (
+  `id` int(11) NOT NULL,
+  `Kiekis` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `inventorius`
+--
+
+INSERT INTO `inventorius` (`id`, `Kiekis`) VALUES
+(7, 2),
+(8, 3),
+(14, 2);
 
 -- --------------------------------------------------------
 
@@ -204,7 +224,8 @@ CREATE TABLE `prekes` (
 
 INSERT INTO `prekes` (`id`, `pavadinimas`, `Pardavimo_kaina`, `Savikaina`, `Nuolaida`, `Kilmes_vieta`, `Siuntimo_kaina`, `Papildoma_informacija`) VALUES
 (7, 'Obuoliai (500 g)', 2.22, 2, 0, 'Kaunas', 0, ''),
-(8, 'Bananai (1 kg)', 0.76, 0, NULL, '', NULL, NULL);
+(8, 'Bananai (1 kg)', 0.76, 0, NULL, '', NULL, NULL),
+(14, 'Pomidorai', 1.8, 0.9, 25, 'Alytus', 0, 'Skanu');
 
 -- --------------------------------------------------------
 
@@ -426,7 +447,7 @@ INSERT INTO `users` (`name`, `surname`, `username`, `password`, `userid`, `userl
 ('', '', 'darbuotojas', '16c354b68848cdbd8f54a226a0a55b21', '2721ae19d27ea5033cf23c6cd103ae10', 5, 'darbuotojas@demo.lt', '2022-11-14 23:39:13', '+37065432198', NULL, 'klientas'),
 ('', '', 'valdytojas', 'c2acd92812ef99acd3dcdbb746b9a434', '582e5be8aed3dcdb5d0cf740157e138a', 5, 'D@ltu.lt', '2022-11-21 11:24:11', '+37065432198', NULL, 'klientas'),
 ('Simonas', 'aasd', 'hmm', 'c2acd92812ef99acd3dcdbb746b9a434', '5f2f664dc9cbf6932cfd6246b584016c', 4, 'lol@gmail.com', '2022-11-13 01:41:49', '+37099999999', NULL, 'klientas'),
-('rimas', 'rimauskas', 'rimas', 'c2acd92812ef99acd3dcdbb746b9a434', '689e5b2971577d707becb97405ede951', 9, 'vytas.sa12@gmail.com', '2022-12-11 16:12:28', '0', '', ''),
+('rimas', 'rimauskas', 'rimas', 'c2acd92812ef99acd3dcdbb746b9a434', '689e5b2971577d707becb97405ede951', 9, 'vytas.sa12@gmail.com', '2022-12-12 13:26:55', '0', '', ''),
 ('kostas', 'kostauskas', 'kostas', '1c37511487d38c3ebc4c59650ce2d65a', '69986045e0925262d43addddaf76094f', 5, 'eeee@ll.lt', '2018-02-16 16:04:35', '0', '', ''),
 ('', '', 'klientas', '16c354b68848cdbd8f54a226a0a55b21', '703c4615ea4bdae8bb7eeeb07eacaabd', 4, 'klientas@demo.lt', '2022-11-14 01:01:48', '+37065432198', NULL, 'klientas'),
 ('jonas', 'jonauskas', 'jonas', '64067822105b320085d18e386f57d89a', '9c5ddd54107734f7d18335a5245c286b', 255, 'vytas.sa12@gmail.com', '2017-05-09 17:10:37', '0', '', ''),
@@ -489,6 +510,13 @@ ALTER TABLE `apmokejimas`
 --
 ALTER TABLE `apmokejimo_budai`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `inventorius`
+--
+ALTER TABLE `inventorius`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_preke` (`id`);
 
 --
 -- Indexes for table `krepselis_pagalbinis`
@@ -614,6 +642,12 @@ ALTER TABLE `apmokejimo_budai`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `inventorius`
+--
+ALTER TABLE `inventorius`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
 -- AUTO_INCREMENT for table `nuolaidos`
 --
 ALTER TABLE `nuolaidos`
@@ -635,7 +669,7 @@ ALTER TABLE `pratyboms`
 -- AUTO_INCREMENT for table `prekes`
 --
 ALTER TABLE `prekes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `pristatymai`
