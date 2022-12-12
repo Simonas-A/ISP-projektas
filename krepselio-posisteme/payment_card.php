@@ -21,6 +21,37 @@ $_SESSION['prev'] = 'payment_card';
 
 $userid = $_SESSION['userid'];
 if (isset($_POST["card_info"])) {
+    $card = $_POST['kortele'];
+    if ($card == "5555 5555 5555 0000") {
+        ?>
+        <html>
+
+        <head>
+            <meta http-equiv="Content-Type"
+                  content="text/html; charset=UTF-8">
+
+            <title>View List</title>
+
+            <link rel="stylesheet" href=
+            "https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+            <link rel="stylesheet"
+                  href="css/style.css">
+        </head>
+
+        <body>
+
+        <div class="container" style="margin-top: 50px;">
+            <h4>
+                KLAIDA! Apmokėjimas neįvykdytas!
+            </h4>
+
+        </div>
+
+        </body>
+        </html>
+        <?php
+    } else {
     $month = $_POST['month'];
     $year = $_POST['year'];
     $current_month =date('m');
@@ -127,6 +158,7 @@ if (isset($_POST["card_info"])) {
         </html>
         <?php
     }
+    }
 }
 ?>
 
@@ -150,18 +182,18 @@ if (isset($_POST["card_info"])) {
 <div class="container" style="margin-top: 50px;">
     <form method='post'>
         <div class="form-group col-lg-4">
-            <label for="adresas" class="control-label">Kortelės nr:</label>
-            <input name='adresas' type='text' class="form-control input-sm" required pattern="(?:\d{4} ){3}\d{4}"
+            <label for="kortele" class="control-label">Kortelės nr:</label>
+            <input name='kortele' type='text' class="form-control input-sm" required pattern="(?:\d{4} ){3}\d{4}"
                    oninput="setCustomValidity(''); checkValidity(); setCustomValidity(validity.valid ? '' :'Neįvestas arba neteisingai įvestas kortelės numeris);"
                    oninvalid="setCustomValidity(''); checkValidity(); setCustomValidity(validity.valid ? '' :'Neįvestas arba neteisingai įvestas kortelės numeris');"/>
             <br>
-            <label for="adresas" class="control-label">Vardas Pavardė:</label>
-            <input name='adresas' type='text' class="form-control input-sm" required pattern="^[A-ZĄČĘĖĮŠŲŪ][a-ząčęėįšųū]+\s[A-ZĄČĘĖĮŠŲŪ][a-ząčęėįšųū]+$"
+            <label for="varpav" class="control-label">Vardas Pavardė:</label>
+            <input name='varpav' type='text' class="form-control input-sm" required pattern="^[A-ZĄČĘĖĮŠŲŪ][a-ząčęėįšųū]+\s[A-ZĄČĘĖĮŠŲŪ][a-ząčęėįšųū]+$"
                    oninput="setCustomValidity(''); checkValidity(); setCustomValidity(validity.valid ? '' :'Neįvestas arba neteisingai įvestas vardas ir pavardė);"
-                   oninvalid="setCustomValidity(''); checkValidity(); setCustomValidity(validity.valid ? '' :'Neįvestas arba neteisingai įvestas nuolaidos kodas');"/>
+                   oninvalid="setCustomValidity(''); checkValidity(); setCustomValidity(validity.valid ? '' :'Neįvestas arba neteisingai įvestas vardas ir pavardė');"/>
             <br>
-            <label for="adresas" class="control-label">CVC:</label>
-            <input name='adresas' type='text' class="form-control input-sm" required pattern="^[0-9]{3}$"
+            <label for="cvc" class="control-label">CVC:</label>
+            <input name='cvc' type='text' class="form-control input-sm" required pattern="^[0-9]{3}$"
                    oninput="setCustomValidity(''); checkValidity(); setCustomValidity(validity.valid ? '' :'Neįvestas arba neteisingai įvestas kortelės CVC);"
                    oninvalid="setCustomValidity(''); checkValidity(); setCustomValidity(validity.valid ? '' :'Neįvestas arba neteisingai įvestas kortelės CVC');"/>
             <br>

@@ -1,7 +1,7 @@
 
 <?php
     session_start();
-    include "include/nustatymai.php";
+    include "../include/nustatymai.php";
     $userlevel=$_SESSION['ulevel'];
     $con=mysqli_connect("localhost","root","","vartvald");
     if(!$con) {
@@ -434,6 +434,7 @@ if (mysqli_num_rows($query)!=0) {
                            oninput="setCustomValidity(''); checkValidity(); setCustomValidity(validity.valid ? '' :'Neįvestas arba neteisingai įvestas nuolaidos kodas);"
                            oninvalid="setCustomValidity(''); checkValidity(); setCustomValidity(validity.valid ? '' :'Neįvestas arba neteisingai įvestas nuolaidos kodas');"/>
                     <input type='submit' name='coupon' value='pritaikyti' class="btnbtn-default" required >
+                    <p style="font-size: 10px">PERSPĖJIMAS: nuolaidos kodas bus pritaikytas tik krepšelyje šiuo metu esančioms prekėms ir jų pasirinktais kiekiais</p>
                 </div>
             </form>
                 <?php
@@ -443,6 +444,7 @@ if (mysqli_num_rows($query)!=0) {
                     <p style="color: black;">Panaudotas nuolaidos kodas:
                         <?php echo $isCouponApplied; ?>
                     </p>
+                    <p style="font-size: 10px">PERSPĖJIMAS: nuolaidos kodas nebebus pritaikomas naujoms prekėms ar pakeitus esamų kiekius</p>
                 </h6>
         <?php
             }

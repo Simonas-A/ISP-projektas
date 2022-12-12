@@ -7,6 +7,12 @@
     }
     $userid = $_SESSION['userid'];
     $id = $_GET['id'];
+
+    $amount_to_readd_to_inventorius = "SELECT kiekis FROM preke_krepselis_pagalbinis WHERE fk_preke_id = '$id' AND fk_krepselis_id = '$userid'";
+    $amount_to_readd=mysqli_query($con,$amount_to_readd_to_inventorius);
+    $amount=mysqli_fetch_array($amount_to_readd);
+    $kiekis = $amount['kiekis'];
+
     $update_krepselis = "
                 UPDATE krepselis_pagalbinis 
                 SET visas_kiekis = visas_kiekis-(SELECT kiekis FROM preke_krepselis_pagalbinis WHERE fk_preke_id = '$id' AND fk_krepselis_id = '$userid'),
@@ -16,6 +22,9 @@
     $q = "delete from preke_krepselis_pagalbinis where fk_preke_id = '$id' AND fk_krepselis_id = '$userid'";
     mysqli_query($con,$update_krepselis);
     mysqli_query($con,$q);
+
+    $update_inventorius = "UPDATE inventorius SET Kiekis = Kiekis + '$kiekis' WHERE id = '$id'";
+    mysqli_query($con,$update_inventorius);
 
     $checkIfNoItemsLeftSQL= "SELECT visas_kiekis FROM krepselis_pagalbinis WHERE userid='$userid' LIMIT 1";
     $checkIfNoItemsLeft_query=mysqli_query($con,$checkIfNoItemsLeftSQL);
