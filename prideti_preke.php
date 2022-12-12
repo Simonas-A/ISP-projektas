@@ -61,6 +61,13 @@
                     name="SiuntimoKaina" />
             </div>
 			<div class="form-group">
+                <label>Kiekis</label>
+                <input type="text" 
+                    class="form-control" 
+                    placeholder="Kiekis" 
+                    name="Kiekis" />
+            </div>
+			<div class="form-group">
                 <label>Papildoma informacija</label>
                 <input type="text" 
                     class="form-control" 
@@ -92,12 +99,14 @@
             $from=$_POST['Vieta'];
             $shipping=$_POST['SiuntimoKaina'];
             $info=$_POST['Informacija'];
-      
+			$kiekis=$_POST['Kiekis'];
   
             $q="insert into prekes (pavadinimas, Pardavimo_kaina, Savikaina, Nuolaida, Kilmes_vieta, Siuntimo_kaina, Papildoma_informacija)
             values('$item_name','$sell_price','$price','$discount','$from','$shipping','$info')";
-  
             mysqli_query($con,$q);
+			$get_id = "SELECT CONVERT(INT, id) FROM `prekes` WHERE prekes.pavadinimas = $item_name";
+			$qq="insert into inventorius (id, kiekis) values ('$get_id', '$kiekis')";
+			mysqli_query($con,$qq);
             header("location:operacija1.php");
         }
          if(isset($_POST["btn1"])) {

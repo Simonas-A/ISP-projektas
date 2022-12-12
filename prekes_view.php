@@ -2,24 +2,16 @@
     include("prekes_db_connect.php");
     if(isset($_POST['btn']))
     {
-		$item_name=$_POST['Pavadinimas'];
-		$sell_price=$_POST['Pardavimo_kaina'];
-		$price=$_POST['savikaina'];
-		$discount=$_POST['Nuolaida'];
-		$from=$_POST['Vieta'];
-		$shipping=$_POST['SiuntimoKaina'];
-		$info=$_POST['Informacija'];
-        $id = $_GET['id'];
-        $q= "update prekes set pavadinimas='$item_name', Pardavimo_kaina='$sell_price', 
-        Savikaina='$price', Nuolaida='$discount', Kilmes_vieta='$from', Siuntimo_kaina='$shipping', Papildoma_informacija='$info' where id=$id";
-        $query=mysqli_query($con,$q);
-        header('location:operacija1.php');
+
     } 
     else if(isset($_GET['id'])) 
     {
         $q = "SELECT * FROM prekes WHERE Id='".$_GET['id']."'";
+		$qq = "SELECT * FROM inventorius WHERE Id='".$_GET['id']."'";
         $query=mysqli_query($con,$q);
+        $qquery=mysqli_query($con,$qq);
         $res= mysqli_fetch_array($query);
+		$rres= mysqli_fetch_array($qquery);
     }
 	         if(isset($_POST["btn1"])) {
 			 header("location:operacija1.php");
@@ -50,6 +42,11 @@
             <div class="form-group">
                 <label>Kaina</label>
         <h1><?php echo $res['Pardavimo_kaina'];?></h1>
+            </div>
+			
+		<div class="form-group">
+                <label>Kiekis</label>
+        <h1><?php echo $rres['Kiekis'];?></h1>
             </div>
 			
   			<div class="form-group">

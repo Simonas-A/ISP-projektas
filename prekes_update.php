@@ -9,17 +9,23 @@
 		$from=$_POST['Vieta'];
 		$shipping=$_POST['SiuntimoKaina'];
 		$info=$_POST['Informacija'];
+		$kiekis =$_POST['Kiekis'];
         $id = $_GET['id'];
         $q= "update prekes set pavadinimas='$item_name', Pardavimo_kaina='$sell_price', 
         Savikaina='$price', Nuolaida='$discount', Kilmes_vieta='$from', Siuntimo_kaina='$shipping', Papildoma_informacija='$info' where id=$id";
+		$qq = "update inventorius set kiekis='$kiekis' where id=$id";
+	    $qquery=mysqli_query($con,$qq);
         $query=mysqli_query($con,$q);
         header('location:operacija1.php');
     } 
     else if(isset($_GET['id'])) 
     {
         $q = "SELECT * FROM prekes WHERE Id='".$_GET['id']."'";
+		$qq = "SELECT * FROM inventorius WHERE Id='".$_GET['id']."'";
         $query=mysqli_query($con,$q);
+        $qquery=mysqli_query($con,$qq);
         $res= mysqli_fetch_array($query);
+		$rres= mysqli_fetch_array($qquery);
     }
 	         if(isset($_POST["btn1"])) {
 			 header("location:operacija1.php");
@@ -97,6 +103,15 @@ value="<?php echo $res['Kilmes_vieta'];?>" />
 value="<?php echo $res['Siuntimo_kaina'];?>" />
             </div>
 			
+			<div class="form-group">
+                <label>Kiekis</label>
+                <input type="text" 
+                    class="form-control" 
+                    name="Kiekis" 
+                    placeholder="Kiekis" 
+value="<?php echo $rres['Kiekis'];?>" />
+            </div>
+
 			<div class="form-group">
                 <label>Papildoma informacija</label>
                 <input type="text" 
