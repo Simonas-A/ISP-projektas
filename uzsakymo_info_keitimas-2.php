@@ -67,7 +67,10 @@
 	
 	while($row = mysqli_fetch_assoc($result))
 	{
-		echo "<form method='post'><div><label>Pristatymo norimas laikas</label><input type='datetime-local' class='form-control' step='any' name='data' placeholder='Pristatymo normas laikas' required value='".$row['data']."'/></div>";
+		$sql_for_time = "SELECT data FROM pristatymai WHERE id = ".$row['fk_pristatymo_id']."";
+		$time_result = mysqli_query($dbc, $sql_for_time);
+		$delivery_time = mysqli_fetch_assoc($time_result);
+		echo "<form method='post'><div><label>Pristatymo norimas laikas</label><input type='datetime-local' class='form-control' step='any' name='data' placeholder='Pristatymo normas laikas' required value='".$delivery_time['data']."'/></div>";
 
 		$shippment_id = $row['fk_pristatymo_id'];
 		$sql_for_shippment_information = "SELECT * FROM pristatymai INNER JOIN statusai ON pristatymai.statusas = statusai.id WHERE pristatymai.id = $shippment_id";

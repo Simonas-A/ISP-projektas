@@ -34,7 +34,7 @@ error_reporting(E_ERROR | E_PARSE);
 ?>
                 <div style="text-align: center;color:green">
                     <br><br>
-                    <h1>Pradinis sistemos puslapis (index.php).</h1>
+
                 </div><br>
       <?php
           }                
