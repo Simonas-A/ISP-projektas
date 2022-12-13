@@ -160,7 +160,6 @@
                         <th scope="col">Prekė</th>
                         <th scope="col">Kiekis</th>
                         <th scope="col">Vieneto kaina</th>
-                        <th scope="col">Šalinti</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -183,15 +182,6 @@
                     <td><?php echo pavadinimas($id); ?></td>
                     <td><?php echo $kiekis; ?></td>
                     <td><?php echo $kaina; ?></td>
-                    <td>
-                    <div class="form-group">
-                        <input type="submit" 
-                            value="Šalinti prekę" 
-                            class="btn btn-danger"
-                            form="prideti" 
-                            name="prideti_preke">
-                    </div>
-                    </td>
                 </tr>
 
                 <?php

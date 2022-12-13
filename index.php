@@ -7,6 +7,7 @@
 session_start();
 include("include/functions.php");
 include "include/nustatymai.php";
+error_reporting(E_ERROR | E_PARSE);
 
 ?>
 
