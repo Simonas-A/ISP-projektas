@@ -34,11 +34,12 @@
 
 	$previous_page = $_SESSION['prev'];
 	$id = $_GET['id'];
-	$sql_owner_of_order = "SELECT * FROM pristatymai WHERE id = $id";
+	$sql_owner_of_order = "SELECT * FROM pirkimai INNER JOIN pristatymai ON pirkimai.fk_pristatymo_id = pristatymai.id WHERE pirkimai.id = $id";
 	$result = mysqli_query($dbc, $sql_owner_of_order);
 	$owner_of_order = mysqli_fetch_assoc($result);
+	$shipmment_id = $owner_of_order['fk_pristatymo_id'];
 
-	if(($userid != $owner_of_order['fk_vartotojo_id']) && (($userlevel != $user_roles["Darbuotojas"]) && ($userlevel != $user_roles[ADMIN_LEVEL]))) {
+	if(($userid != $owner_of_order['fk_vartotojas_id']) && (($userlevel != $user_roles["Darbuotojas"]) && ($userlevel != $user_roles[ADMIN_LEVEL]))) {
 		$_SESSION['kicked'] = 'yes';
 		$_SESSION['message'] = 'Bandėte patekti į kito žmogaus uzsakymo_info_keitimas-2.php puslapį, tačiau tam neturite privilegijų';
 		header("Location: logout.php");
@@ -83,7 +84,7 @@
         $datetime = $_POST['data'];
 		$shippment_address = $_POST['adresas'];
 
-		$sql_for_shippment = "UPDATE pristatymai SET data = '$datetime', adresas = '$shippment_address' WHERE id = $id";
+		$sql_for_shippment = "UPDATE pristatymai SET data = '$datetime', adresas = '$shippment_address' WHERE id = $shipmment_id";
         $query=mysqli_query($dbc, $sql_for_shippment);
 
 		$_SESSION['message'] = 'Sėkmingai atnaujinta';

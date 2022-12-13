@@ -78,7 +78,7 @@
 		echo "<h5 class='align-left'>Pristatymo adresas: ".$shippment_information['adresas']."</h3><br>";		
 	} 
 
-	$sql = "SELECT prekes.pavadinimas, prekes.kaina, ppt.pirktas_kiekis FROM prekes INNER JOIN preke_pirkimai_tarpinis AS ppt ON prekes.id = ppt.fk_preke_id WHERE ppt.fk_pirkimas_id = $id";
+	$sql = "SELECT prekes.pavadinimas, prekes.Pardavimo_kaina, ppt.pirktas_kiekis FROM prekes INNER JOIN preke_pirkimai_tarpinis AS ppt ON prekes.id = ppt.fk_preke_id WHERE ppt.fk_pirkimas_id = $id";
 	$result = mysqli_query($dbc, $sql);
 
 	echo "<center><h1>Užsakytos prekės</h1><br></center>";
@@ -90,7 +90,7 @@
 	</tr>";
 	while($row = mysqli_fetch_assoc($result))
 	{
-		$total_price = $row['pirktas_kiekis'] * $row['kaina'];
+		$total_price = $row['pirktas_kiekis'] * $row['Pardavimo_kaina'];
 		echo "<tr><td>".$row['pavadinimas']."</td>";
 		echo "<td>".$row['pirktas_kiekis']."</td>";
 		echo "<td>".$total_price."</td>";
