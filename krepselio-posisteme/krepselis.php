@@ -34,7 +34,9 @@
         }
 
         if(mysqli_num_rows($check) > 0) {
+
             $check=mysqli_fetch_array($check);
+            $discount = $check['nuolaida'];
             $start_date = $check['galiojimo_pradzia'];
             $end_date = $check['galiojimo_pabaiga'];
             $uses = $check['panaudojimai'];
@@ -44,7 +46,7 @@
             if (($current_time >= $start_date) && ($current_time <= $end_date) && ($uses != 0)) {
                 $sqlpritaikyti = "
                                 UPDATE krepselis_pagalbinis 
-                                SET fk_nuolaidos_id = '$kodas', visa_kaina = visa_kaina*( 1- ('$kodas'/100))
+                                SET fk_nuolaidos_id = '$kodas', visa_kaina = visa_kaina*( 1- ('$discount'/100))
                                 WHERE userid = '$userid'";
                 if (!mysqli_query($con, $sqlpritaikyti)) die ("Klaida įrašant:" .mysqli_error($con));
                 $wholesum= "SELECT round(visa_kaina, 2) AS visa_kaina FROM krepselis_pagalbinis WHERE userid='$userid' LIMIT 1";
@@ -173,7 +175,10 @@
     $wholesum= "SELECT round(visa_kaina, 2) as visa_kaina FROM krepselis_pagalbinis WHERE userid='$userid' LIMIT 1";
     $wholesum_query=mysqli_query($con,$wholesum);
     $wholesum_queryquery=mysqli_fetch_array($wholesum_query);
-    $visakaina = $wholesum_queryquery['visa_kaina'];
+
+    if(isset($wholesum_queryquery)) {
+        $visakaina = $wholesum_queryquery['visa_kaina'];
+    }
 
     if(isset($_POST["submit_delivery"])) {
         if (!empty($_POST['address'])) {
