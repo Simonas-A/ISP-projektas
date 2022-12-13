@@ -34,9 +34,9 @@
 
 	$dbc= new mysqli("localhost", "root", "", "vartvald");
 	$id = $_GET['id'];
-	$sql_owner_of_order = "SELECT fk_vartotojo_id FROM pristatymai WHERE id = $id";
+	$sql_owner_of_order = "SELECT fk_vartotojas_id FROM pirkimai WHERE id = $id";
 	$result = mysqli_query($dbc, $sql_owner_of_order);
-	$owner_of_order = mysqli_fetch_assoc($result)['fk_vartotojo_id'];
+	$owner_of_order = mysqli_fetch_assoc($result)['fk_vartotojas_id'];
 	if(($userid != $owner_of_order) && (($userlevel != $user_roles["Darbuotojas"]) && ($userlevel != $user_roles[ADMIN_LEVEL]))) {
 		$_SESSION['kicked'] = 'yes';
 		$_SESSION['message'] = 'Bandėte patekti į kito žmogaus detalesne_informacija_uzsakymo.php puslapį, tačiau tam neturite privilegijų';
