@@ -15,16 +15,12 @@
     <body>
     <div class="center" style=" margin: auto;width: 60%;padding: 10px;">
 
-<table class="center" style=" width:75%; border-width: 2px; border-style: dotted;">
-<tr><td width=30%><a class='btn btn-danger' href="./client-menu.php">[Atgal]</a></td><td width=30%> 
-</table>
-<h1>You can see list of client common goods here</h1>
+<a class='btn btn-danger' href="./client-menu.php">Atgal</a>
 
 <?php
 include("client-connect.php");
 session_start();
 $userid=$_SESSION['userid'];
-echo "Jūsų vartotojo ID: " . $userid . "<br>";
 $sql = "SELECT pavadinimas, suma FROM (SELECT fk_preke_id, SUM(pirktas_kiekis) suma FROM pirkimai pirk RIGHT JOIN preke_pirkimai_tarpinis ppt ON pirk.id = ppt.fk_pirkimas_id
 WHERE fk_vartotojas_id = '$userid'
 GROUP BY fk_preke_id) prekkiek
@@ -41,7 +37,7 @@ if ($result->num_rows > 0) {
     }
     echo "</table>";
 } else {
-    echo "0 results";
+    echo "Nėra prekių";
 }
 $con->close();
 ?>

@@ -9,7 +9,7 @@ $row = mysqli_fetch_array($query);
 "https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <div style="margin: auto;width: 60%;padding: 10px;">
 <table>
-<tr><td width=30%><a class="btn btn-danger" href="./client-list.php">[Atgal]</a></td><td width=30%>
+<tr><td width=30%><a class="btn btn-danger" href="./client-list.php">Atgal</a></td><td width=30%>
 </table>
 
 <form type="post" action="client-edit.php">

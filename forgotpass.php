@@ -20,7 +20,7 @@ if (empty($_SESSION['name_login'])) { header("Location: logout.php");exit;}
     </head>
   <body>
     
-  <table class="center"><tr><td><img src="include/top.png"/></td></tr><tr><td> 
+  <table class="center"><tr><td><img src="include/top.jpg"/></td></tr><tr><td> 
        <table style="border-width: 2px; border-style: dotted;"><tr><td>
             Atgal į [<a href="index.php">Pradžia</a>]</td></tr>
        </table>               

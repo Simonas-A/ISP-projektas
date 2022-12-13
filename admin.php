@@ -21,7 +21,7 @@ date_default_timezone_set("Europe/Vilnius");
     </head>
     <body>
         <table class="center" ><tr><td>
-            <center><img src="include/top.png"></center>
+            <center><img src="include/top.jpg"></center>
             </td></tr><tr><td>
 		<center><font size="5">Vartotojų registracija, peržiūra ir įgaliojimų keitimas</font></center></td></tr></table> <br>
 		<center><b><?php echo $_SESSION['message']; ?></b></center>

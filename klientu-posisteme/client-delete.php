@@ -17,7 +17,17 @@ $row = mysqli_fetch_array($query);
 if($_GET['sure']??""=="yes"){
 $q= "DELETE FROM users WHERE userid='$clientid'";
 $query=mysqli_query($con,$q);
+send_deletion_email($row['email'], $row['name'], $row['surname']);
 header("Location: client-list.php");
+}
+
+function send_deletion_email($email, $name, $surname){
+    $to = $email;
+    $subject = "Kliento pašalinimas";
+    $txt = "Sveiki, " . $name . " " . $surname . ". Jūsų paskyra buvo pašalinta.";
+    $headers = "From:
+";
+    mail($to,$subject,$txt,$headers);
 }
 ?>
 </div>

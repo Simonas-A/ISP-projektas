@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 13, 2022 at 10:25 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Host: localhost
+-- Generation Time: Dec 12, 2022 at 06:03 PM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -103,6 +103,26 @@ INSERT INTO `inventorius` (`id`, `Kiekis`) VALUES
 (7, 4),
 (8, 0),
 (14, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `isleista_suma`
+--
+
+CREATE TABLE `isleista_suma` (
+  `id` int(11) NOT NULL,
+  `suma` decimal(12,2) NOT NULL,
+  `data` datetime NOT NULL,
+  `userid` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `isleista_suma`
+--
+
+INSERT INTO `isleista_suma` (`id`, `suma`, `data`, `userid`) VALUES
+(1, '195.05', '2022-12-14 12:12:52', '689e5b2971577d707becb97405ede951');
 
 -- --------------------------------------------------------
 
@@ -447,14 +467,13 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`name`, `surname`, `username`, `password`, `userid`, `userlevel`, `email`, `timestamp`, `phone`, `position`, `type`) VALUES
 ('', '', 'darbuotojas', '16c354b68848cdbd8f54a226a0a55b21', '2721ae19d27ea5033cf23c6cd103ae10', 5, 'darbuotojas@demo.lt', '2022-11-14 23:39:13', '+37065432198', NULL, 'klientas'),
 ('', '', 'valdytojas', 'c2acd92812ef99acd3dcdbb746b9a434', '582e5be8aed3dcdb5d0cf740157e138a', 5, 'D@ltu.lt', '2022-11-21 11:24:11', '+37065432198', NULL, 'klientas'),
-('Simonas', 'aasd', 'hmm', 'c2acd92812ef99acd3dcdbb746b9a434', '5f2f664dc9cbf6932cfd6246b584016c', 4, 'lol@gmail.com', '2022-11-13 01:41:49', '+37099999999', NULL, 'klientas'),
-('rimas', 'rimauskas', 'rimas', 'c2acd92812ef99acd3dcdbb746b9a434', '689e5b2971577d707becb97405ede951', 9, 'vytas.sa12@gmail.com', '2022-12-12 14:51:59', '0', '', ''),
+('rimas', 'rimauskas', 'rimas', 'c2acd92812ef99acd3dcdbb746b9a434', '689e5b2971577d707becb97405ede951', 9, 'vytas.sa12@gmail.com', '2022-12-13 22:43:41', '0', '', ''),
 ('kostas', 'kostauskas', 'kostas', '1c37511487d38c3ebc4c59650ce2d65a', '69986045e0925262d43addddaf76094f', 5, 'eeee@ll.lt', '2018-02-16 16:04:35', '0', '', ''),
 ('', '', 'klientas', '16c354b68848cdbd8f54a226a0a55b21', '703c4615ea4bdae8bb7eeeb07eacaabd', 4, 'klientas@demo.lt', '2022-11-14 01:01:48', '+37065432198', NULL, 'klientas'),
 ('jonas', 'jonauskas', 'jonas', '64067822105b320085d18e386f57d89a', '9c5ddd54107734f7d18335a5245c286b', 255, 'vytas.sa12@gmail.com', '2017-05-09 17:10:37', '0', '', ''),
 ('adminas', 'adminauskas', 'Administratorius', '16c354b68848cdbd8f54a226a0a55b21', 'a2fe399900de341c39c632244eaf8483', 9, 'demo@ktu.lt', '2022-11-14 12:19:52', '0', '', ''),
-('Simonas', 'aasd', 'simonasasas', '1653754378ce92f8cded9854caf733cb', 'b134e7196c6b2a979e26a911c749bc8f', 4, 'siasd@gmail.com', '2022-11-12 21:09:47', '+370999999123', NULL, 'klientas'),
-('', '', 'klie', 'c2acd92812ef99acd3dcdbb746b9a434', 'bad596e6029596d4ef57c2a5f49a91ed', 4, 'dad@ktu.da', '2022-11-21 11:21:34', '+37065432198', NULL, 'klientas'),
+('', '', 'klie', 'c2acd92812ef99acd3dcdbb746b9a434', 'bad596e6029596d4ef57c2a5f49a91ed', 4, 'dad@ktu.da', '2022-12-13 22:42:24', '+37065432198', NULL, 'klientas'),
+('SimonasDarb', 'Aaaa', 'darb', 'c2acd92812ef99acd3dcdbb746b9a434', 'c2acd92812ef99acd3dcdbb746b9a434', 5, 'lol@gmail.com', '2022-12-13 21:05:39', '+37099999999', NULL, 'klientas'),
 ('PRANASLAVAS', 'ABUGELIS', 'PRANYS', '31c290ad43d6c7002b45df7e7a3286a1', 'd6dae04acf3129a632f712126486d867', 4, 'PRANAS@pranas.com', '2022-11-12 21:19:17', '+3765465465', NULL, 'klientas');
 
 -- --------------------------------------------------------
@@ -528,6 +547,12 @@ ALTER TABLE `apmokejimo_budai`
 ALTER TABLE `inventorius`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_preke` (`id`);
+
+--
+-- Indexes for table `isleista_suma`
+--
+ALTER TABLE `isleista_suma`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `krepselis_pagalbinis`
@@ -657,6 +682,12 @@ ALTER TABLE `apmokejimo_budai`
 --
 ALTER TABLE `inventorius`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT for table `isleista_suma`
+--
+ALTER TABLE `isleista_suma`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `nuolaidos`

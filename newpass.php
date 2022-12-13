@@ -44,7 +44,7 @@ mail($to, $subject, $message, $headers);
     </head>
   <body>
   <table class="center" ><tr><td>
-        <center><img src="include/top.png"></center>
+        <center><img src="include/top.jpg"></center>
         </td></tr><tr><td> 
         
         <div align="center"> <font size="4" color="#ff0000"> Pakeistas slaptažodis vartotojui  <?php echo $_SESSION['name_login']; ?></font> <br> 

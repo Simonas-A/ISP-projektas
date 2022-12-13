@@ -1,10 +1,7 @@
 <link rel="stylesheet" href=
 "https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <div style="margin: auto;width: 60%;padding: 10px;">
-<h1>You can see all clients here</h1>
-<table class="center" style=" width:75%; border-width: 2px; border-style: dotted;">
-<tr><td width=30%><a class="btn btn-danger" href="./client-menu.php">[Atgal]</a></td><td width=30%>
-</table>
+<a class="btn btn-danger" href="./client-menu.php">Atgal</a>
 
 <h1>Klientai</h1>
 <a class="btn btn-info" href="./client-add.php">Pridėti naują klientą</a>
