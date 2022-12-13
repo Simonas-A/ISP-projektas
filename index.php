@@ -33,7 +33,7 @@ include "include/nustatymai.php";
 ?>
                 <div style="text-align: center;color:green">
                     <br><br>
-                    <h1>Pradinis sistemos puslapis (index.php).</h1>
+
                 </div><br>
       <?php
           }                
