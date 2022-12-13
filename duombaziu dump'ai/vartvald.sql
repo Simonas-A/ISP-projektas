@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Dec 12, 2022 at 06:03 PM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 8.1.6
+-- Host: 127.0.0.1
+-- Generation Time: Dec 13, 2022 at 10:25 PM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -479,8 +479,8 @@ CREATE TABLE `uzsakymas` (
 --
 
 INSERT INTO `uzsakymas` (`id`, `sudaryta`, `pristatyta`, `suma`, `pristatymo_kaina`, `fk_darbuotojas_id`, `fk_statusas`, `fk_tiekejas`) VALUES
-(1, '2022-11-14 14:14:34', '2022-11-14 14:14:34', 12.44, 2.49, 'd6dae04acf3129a632f712126486d867', 3, 3),
-(2, '2022-11-14 14:14:34', '2022-11-14 14:14:34', 50.89, 10, '69986045e0925262d43addddaf76094f', 1, 1);
+(11, '2022-12-04 23:22:00', '2022-12-08 23:22:00', 0, 0.02, 'a2fe399900de341c39c632244eaf8483', 1, 1),
+(12, '2022-12-08 23:22:00', '2022-12-13 23:22:00', 70, 14, 'a2fe399900de341c39c632244eaf8483', 3, 3);
 
 -- --------------------------------------------------------
 
@@ -494,6 +494,16 @@ CREATE TABLE `uzsakymo_preke` (
   `fk_uzsakymas` int(11) NOT NULL,
   `fk_preke` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `uzsakymo_preke`
+--
+
+INSERT INTO `uzsakymo_preke` (`kiekis`, `vieneto_kaina`, `fk_uzsakymas`, `fk_preke`) VALUES
+(1, 2, 10, 7),
+(1, 2, 11, 14),
+(2, 14, 12, 7),
+(14, 2, 12, 14);
 
 --
 -- Indexes for dumped tables
@@ -700,7 +710,7 @@ ALTER TABLE `tiekejai`
 -- AUTO_INCREMENT for table `uzsakymas`
 --
 ALTER TABLE `uzsakymas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables

@@ -105,6 +105,56 @@ if(isset($_POST['redaguoti_uzsakyma']))
 
 if(isset($_POST["prideti_uzsakyma"])) 
     {
+        if(isset($_POST['prideti_preke']))
+        {
+            $id = $_POST['id'];
+            $kiekis = $_POST['kiekis'];
+            $kaina = $_POST['kaina'];
+            $pkaina = $_POST['pkaina'];
+    
+            $prekes = $_SESSION['prekes'];
+            $kiekiai = $_SESSION['prekesK'];
+            $kainos = $_SESSION['prekesKA'];
+    
+            if ($kiekis != ""){
+                $new = true;
+                $length = count($prekes);
+                for ($i = 0; $i < $length; $i++) {
+                    if($prekes[$i]==$id)
+                    {
+                        $kainos[$i] = ($kiekiai[$i]*$kainos[$i] + $kiekis*$kaina)/($kiekis+$kiekiai[$i]);
+                        $kiekiai[$i] = $kiekiai[$i] + $kiekis;
+                        $new = false;
+                        break;
+                    }
+                }
+    
+                if ($new == true)
+                {
+                    array_push($prekes, $id);
+                    array_push($kiekiai, $kiekis);
+                    array_push($kainos, $kaina);
+                }
+                
+            }
+    
+            $suma = (float)$pkaina;
+            $length = count($prekes);
+            for ($i = 0; $i < $length; $i++) {
+                $suma = $suma + $kiekiai[$i]*$kainos[$i];
+            }
+            
+            $_SESSION['prekes']=$prekes;
+            $_SESSION['prekesK']=$kiekiai;
+            $_SESSION['prekesKA']=$kainos;
+            
+            $_SESSION['sudarymas']=$_POST['sudaryta'];
+            $_SESSION['pristatymas']=$_POST['pristatyta'];
+            $_SESSION['pkaina']=$_POST['pkaina'];
+            $_SESSION['tiekejas']=$_POST['tiekejas'];
+        }
+
+        
         session_start();
         if (count($_SESSION['prekes']) == 0)
         {
