@@ -64,6 +64,10 @@
 				<h1><?php echo $res['Papildoma_informacija'];?></h1>
             </div>
   
+            <div class="form-group">
+                <input type="submit" value="Atnaujinti" 
+                    name="btn" class="btn btn-danger">
+            </div>
 		<div class="form-group">
                 <input type="submit" 
                     value="Grįžti" 

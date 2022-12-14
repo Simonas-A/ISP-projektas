@@ -1,6 +1,7 @@
 
 <?php
     include("prekes_db_connect.php");
+
     if (isset($_POST['btn'])) {
         $pavadinimas=$_POST['pavadinimas'];
         $q="select * from prekes where pavadinimas='$pavadinimas'";
@@ -39,9 +40,6 @@
 				<?php
 					session_start();
 					include "include/nustatymai.php";
-					if (!empty($_SESSION["error"]))
-						echo "Prekės negalima pašalinti" . $_SESSION["error"] . ".<br>";
-					$_SESSION["error"] = "";
 					$userlevel=$_SESSION['ulevel'];
 				if (($userlevel == $user_roles["Darbuotojas"] ) || ($userlevel == $user_roles[ADMIN_LEVEL] ))
                 echo "<a href='prideti_preke.php'>Pridėti prekę</a>";
@@ -51,7 +49,8 @@
             <div class="col-lg-4">
                 <div class="row">
                     <div class="col-lg-8">
-
+                          
+                        <!-- Date Filtering-->
                         <form method="post" action="">
                             <input type="text" 
                                 class="form-control" 
@@ -107,7 +106,6 @@
             ?>
 			            <?php
 	         if(isset($_POST["btn1"])) {
-
 			 header("location:operacija1.php");
 		 }
             ?>
