@@ -44,8 +44,8 @@
 					<th scope="col">#</th>
 					<th scope="col">Tiekėjas</th>
 					<th scope="col">Būsena</th>
-					<th scope="col">Sudarytas</th>
-					<th scope="col">Pristatytas</th>
+					<th scope="col">Sudarytas (Kiekis)</th>
+					<th scope="col">Pristatytas (Kaina)</th>
 					<th scope="col">Suma</th>
 					<th scope="col">Pristatymo kaina</th>
 					<th scope="col">Darbuotojas</th>
@@ -72,7 +72,7 @@
 				<td><?php echo $uzsakymas['username']; ?></td>
 				<td>
 					 <form method="post" action="uzsakymu_valdiklis.php?id=<?php echo $uzsakymas['id']; ?>" onsubmit="return confirm('Ar tikrai norite pakeisti šio užsakymo būseną į <?php if($uzsakymas['statusas']=='Atlikta') { echo 'užsakyta';} else {echo 'atlikta';} ?>?');">
-                        <input type="submit" value="Keisit būseną" name="pakeisti_busena" class="btn btn-outline-success">
+                        <input type="submit" value="Keisti būseną" name="pakeisti_busena" class="btn btn-outline-success">
                     </form>
 				</td>
 				<td>
@@ -156,7 +156,7 @@
 				<td><?php echo $uzsakymas['username']; ?></td>
 				<td>
 					 <form method="post" action="uzsakymu_valdiklis.php?id=<?php echo $uzsakymas['id']; ?>" onsubmit="return confirm('Ar tikrai norite pakeisti šio užsakymo būseną į <?php if($uzsakymas['statusas']=='Atlikta') { echo 'užsakyta';} else {echo 'atlikta';} ?>?');">
-                        <input type="submit" value="Keisit būseną" name="pakeisti_busena" class="btn btn-outline-success">
+                        <input type="submit" value="Keisti būseną" name="pakeisti_busena" class="btn btn-outline-success">
                     </form>
 				</td>
 				<td>

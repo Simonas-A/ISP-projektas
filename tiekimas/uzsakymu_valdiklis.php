@@ -1,5 +1,16 @@
 <?php
 
+// session_start();
+// include "include/nustatymai.php";
+
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require '../phpmailer/src/Exception.php';
+require '../phpmailer/src/PHPMailer.php';
+require '../phpmailer/src/SMTP.php';
+
 function uzsakymu_sarasas()
 {
     include("../prekes_db_connect.php");
@@ -71,7 +82,58 @@ if(isset($_POST['pakeisti_busena']))
         if ($qq1['fk_statusas']==3) { $statusas = 1; }
         
         $q2 = "update uzsakymas set fk_statusas='$statusas' where id=$id";
-        mysqli_query($con,$q2);    
+        mysqli_query($con,$q2);  
+
+        
+
+        if ($statusas == 3)
+        {
+            // error_reporting(-1);
+            // ini_set('display_errors', 'On');
+            // set_error_handler("var_dump");
+
+            // // $q3 = "select * from prekes where id=$id";
+            // // $query3 = mysqli_query($con,$q3);  
+            // // $qq3 = mysqli_fetch_array($query3);
+            // // echo $qq3['pavadinimas'];exit;
+
+            // // $name = $qq3['pavadinimas'];
+
+            // $email= 'tadas.tamosauskas2001@gmail.com';
+            // $subject = 'Tiekimmo užsakymo '.$id.' pristatymas';
+            // $message = 'Tiekimas, kurio id: '.$id;
+            // $headers = "From: tadas.tamosauskas2001@gmail.com";
+        
+            // $pav = mail($email, $subject, $message,$headers);
+
+            
+        
+			$email = "tadas.tamosauskas2001@gmail.com";
+			$subject = 'Tiekimmo užsakymo '.$id.' pristatymas';
+			$message = "<center><h1>Pristatytos užsakytos prekės</h1></center><br><h2>Užsakymo nr. ".$id;
+
+			$mail = new PHPMailer(true);
+			$mail->IsSMTP();
+			$mail->Host = 'smtp.gmail.com';
+			$mail->SMTPAuth = true;
+			$mail->SMTPOptions = array('ssl' => array('verify_peer' => false, 'verify_peer_name' => false, 'allow_self_signed' => true));
+			$mail->Username = 'vytas.sa1@gmail.com';
+			$mail->Password = 'ruuvicogpbumtksk';
+			$mail->Port = 587;
+			$mail->CharSet = 'UTF-8';
+			$mail->isHTML(true);
+
+			$mail->setFrom('vytas.sa1@gmail.com');
+			$mail->addAddress($email);
+			$mail->Subject = $subject;
+			$mail->Body = $message;
+
+			$mail->send();
+
+            // echo $pav;exit;
+        }
+
+        
         header('location:uzsakymai.php');
     }
 
@@ -100,61 +162,20 @@ if(isset($_POST['redaguoti_uzsakyma']))
         $q= "update uzsakymas set sudaryta='$sudaryta', pristatyta='$pristatyta', suma='$suma', pristatymo_kaina='$pristatymo_kaina', fk_darbuotojas_id='$fk_darbuotojas_id'
 		where id=$id";
         $query=mysqli_query($con,$q);
+
+
+        // $email='simalb@ktu.lt';
+        // $subject = 'Pristatyta prekė';
+        // mail($email, $subject, $message);
+
         header('location:uzsakymai.php');
     } 
 
 if(isset($_POST["prideti_uzsakyma"])) 
     {
-        if(isset($_POST['prideti_preke']))
-        {
-            $id = $_POST['id'];
-            $kiekis = $_POST['kiekis'];
-            $kaina = $_POST['kaina'];
-            $pkaina = $_POST['pkaina'];
-    
-            $prekes = $_SESSION['prekes'];
-            $kiekiai = $_SESSION['prekesK'];
-            $kainos = $_SESSION['prekesKA'];
-    
-            if ($kiekis != ""){
-                $new = true;
-                $length = count($prekes);
-                for ($i = 0; $i < $length; $i++) {
-                    if($prekes[$i]==$id)
-                    {
-                        $kainos[$i] = ($kiekiai[$i]*$kainos[$i] + $kiekis*$kaina)/($kiekis+$kiekiai[$i]);
-                        $kiekiai[$i] = $kiekiai[$i] + $kiekis;
-                        $new = false;
-                        break;
-                    }
-                }
-    
-                if ($new == true)
-                {
-                    array_push($prekes, $id);
-                    array_push($kiekiai, $kiekis);
-                    array_push($kainos, $kaina);
-                }
-                
-            }
-    
-            $suma = (float)$pkaina;
-            $length = count($prekes);
-            for ($i = 0; $i < $length; $i++) {
-                $suma = $suma + $kiekiai[$i]*$kainos[$i];
-            }
-            
-            $_SESSION['prekes']=$prekes;
-            $_SESSION['prekesK']=$kiekiai;
-            $_SESSION['prekesKA']=$kainos;
-            
-            $_SESSION['sudarymas']=$_POST['sudaryta'];
-            $_SESSION['pristatymas']=$_POST['pristatyta'];
-            $_SESSION['pkaina']=$_POST['pkaina'];
-            $_SESSION['tiekejas']=$_POST['tiekejas'];
-        }
-
         
+
+
         session_start();
         if (count($_SESSION['prekes']) == 0)
         {
@@ -166,13 +187,27 @@ if(isset($_POST["prideti_uzsakyma"]))
 
         include("../prekes_db_connect.php");
 
-        $sudaryta=$_SESSION['sudarymas'];
-        $pristatyta=$_SESSION['pristatymas'];
+        // $sudaryta=$_SESSION['sudarymas'];
+        // $pristatyta=$_SESSION['pristatymas'];
+        // // $suma=0;
+        // $pristatymo_kaina=$_SESSION['pkaina'];
+        // $fk_darbuotojas_id=$_SESSION['userid'];
+        // $fk_statusas='1';
+        // $fk_tiekejas=$_SESSION['tiekejas'];
+
+        // $_SESSION['sudarymas']=$_POST['sudaryta'];
+        // $_SESSION['pristatymas']=$_POST['pristatyta'];
+        // $_SESSION['pkaina']=$_POST['pkaina'];
+        // $_SESSION['tiekejas']=$_POST['tiekejas'];
+
+        $sudaryta=$_POST['sudaryta'];
+        $pristatyta=$_POST['pristatyta'];
         // $suma=0;
-        $pristatymo_kaina=$_SESSION['pkaina'];
+        $pristatymo_kaina=$_POST['pkaina'];
         $fk_darbuotojas_id=$_SESSION['userid'];
         $fk_statusas='1';
-        $fk_tiekejas=$_SESSION['tiekejas'];
+        $fk_tiekejas=$_POST['tiekejas'];
+
         
         $prekes = $_SESSION['prekes'];
         $kiekiai = $_SESSION['prekesK'];
@@ -202,6 +237,8 @@ if(isset($_POST["prideti_uzsakyma"]))
                 values('$kiekis', '$kaina', '$gid', '$id');";
                 mysqli_query($con,$q);
             }
+
+
 
         header("location:uzsakymai.php");
 
