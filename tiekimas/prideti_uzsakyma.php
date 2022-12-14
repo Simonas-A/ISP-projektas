@@ -70,7 +70,6 @@
   
 <body>
     <form method="POST" id="prideti">
-            <form action="uzsakymu_valdiklis.php" method="POST">
     <div class="container mt-5">
         <h1>Kurti užsakymą</h1>
         <!-- <form action="uzsakymu_valdiklis.php" method="POST"> -->
@@ -191,8 +190,8 @@
 
                 </tbody>
             </table>
-<!-- 
-            <form action="uzsakymu_valdiklis.php" method="POST"> -->
+
+            <form action="uzsakymu_valdiklis.php" method="POST">
             <div class="form-group">
                 <input type="submit" 
                     value="Kurti" 
