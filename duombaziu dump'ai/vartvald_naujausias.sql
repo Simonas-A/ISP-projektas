@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 14, 2022 at 12:47 PM
+-- Generation Time: Dec 14, 2022 at 01:31 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -58,7 +58,8 @@ INSERT INTO `apmokejimas` (`id`, `apmokejimo_budas`, `data`) VALUES
 (33, 1, '2022-12-11 18:10:11'),
 (34, 1, '2022-12-11 18:10:43'),
 (35, 2, '2022-12-11 18:11:36'),
-(36, 3, '2022-12-11 18:12:12');
+(36, 3, '2022-12-11 18:12:12'),
+(37, 2, '2022-12-14 13:52:22');
 
 -- --------------------------------------------------------
 
@@ -96,7 +97,10 @@ CREATE TABLE `inventorius` (
 --
 
 INSERT INTO `inventorius` (`id`, `Kiekis`) VALUES
-(8, 3);
+(7, 15),
+(8, 108),
+(26, 300),
+(29, 4);
 
 -- --------------------------------------------------------
 
@@ -116,7 +120,8 @@ CREATE TABLE `krepselis_pagalbinis` (
 --
 
 INSERT INTO `krepselis_pagalbinis` (`userid`, `visas_kiekis`, `visa_kaina`, `fk_nuolaidos_id`) VALUES
-('689e5b2971577d707becb97405ede951', 2, 2.98, NULL);
+('689e5b2971577d707becb97405ede951', 2, 2.99, NULL),
+('bad596e6029596d4ef57c2a5f49a91ed', 1, 2.23, NULL);
 
 -- --------------------------------------------------------
 
@@ -184,7 +189,8 @@ INSERT INTO `pirkimai` (`id`, `data`, `kaina`, `prekiu_kiekis`, `fk_vartotojas_i
 (27, '2022-12-11 18:10:11', 4.02, 1, '689e5b2971577d707becb97405ede951', 35, 33, NULL),
 (28, '2022-12-11 18:10:43', 4.02, 1, '689e5b2971577d707becb97405ede951', 36, 34, NULL),
 (29, '2022-12-11 18:11:36', 2.56, 1, '689e5b2971577d707becb97405ede951', 37, 35, NULL),
-(30, '2022-12-11 18:12:12', 4.02, 1, '689e5b2971577d707becb97405ede951', 38, 36, NULL);
+(30, '2022-12-11 18:12:12', 4.02, 1, '689e5b2971577d707becb97405ede951', 38, 36, NULL),
+(31, '2022-12-14 13:52:22', 6.58, 3, '689e5b2971577d707becb97405ede951', 39, 37, NULL);
 
 -- --------------------------------------------------------
 
@@ -221,8 +227,10 @@ CREATE TABLE `prekes` (
 --
 
 INSERT INTO `prekes` (`id`, `pavadinimas`, `Pardavimo_kaina`, `Savikaina`, `Nuolaida`, `Kilmes_vieta`, `Siuntimo_kaina`, `Papildoma_informacija`) VALUES
-(7, 'Obuoliai (500 g)', 2.23, 2, 0, 'Kaunas', 0, ''),
-(8, 'Bananai (1 kg)', 0.76, 0, NULL, '', NULL, NULL);
+(7, 'Obuoliai (500 g)', 2.23, 2, 5, 'Kaunas', 0, 'Lietuvos'),
+(8, 'Bananai (1 kg)', 0.76, 0, 0, '', 0, 'Afrikos'),
+(26, 'Agurkai', 1.8, 0.9, 10, 'Alytus', 5, 'Lietuvos'),
+(29, 'Ratai', 16, 9, 0, 'Alytus', 1, 'Vasariniai ratai');
 
 -- --------------------------------------------------------
 
@@ -242,6 +250,7 @@ CREATE TABLE `preke_krepselis_pagalbinis` (
 
 INSERT INTO `preke_krepselis_pagalbinis` (`fk_preke_id`, `fk_krepselis_id`, `kiekis`) VALUES
 (7, '689e5b2971577d707becb97405ede951', 1),
+(7, 'bad596e6029596d4ef57c2a5f49a91ed', 1),
 (8, '689e5b2971577d707becb97405ede951', 1);
 
 -- --------------------------------------------------------
@@ -276,6 +285,7 @@ INSERT INTO `preke_pirkimai_tarpinis` (`fk_preke_id`, `fk_pirkimas_id`, `pirktas
 (7, 27, 1),
 (7, 28, 1),
 (7, 30, 1),
+(7, 31, 1),
 (8, 2, 12),
 (8, 3, 15),
 (8, 12, 1),
@@ -283,7 +293,9 @@ INSERT INTO `preke_pirkimai_tarpinis` (`fk_preke_id`, `fk_pirkimas_id`, `pirktas
 (8, 16, 1),
 (8, 17, 1),
 (8, 21, 1),
-(8, 29, 1);
+(8, 29, 1),
+(8, 31, 1),
+(26, 31, 1);
 
 -- --------------------------------------------------------
 
@@ -328,7 +340,8 @@ INSERT INTO `pristatymai` (`id`, `adresas`, `data`, `statusas`, `fk_vartotojo_id
 (35, 'Kaunas, Vilniaus g. 9', '2022-12-11 18:10:11', 1, '689e5b2971577d707becb97405ede951', 1.8, 'LPASTAS', 'rimas rimauskas', '-'),
 (36, 'Kaunas, Vilniaus g. 9', '2022-12-11 18:10:43', 1, '689e5b2971577d707becb97405ede951', 1.8, 'LPASTAS', 'rimas rimauskas', '-'),
 (37, 'Kaunas, Vilniaus g. 9', '2022-12-11 18:11:36', 1, '689e5b2971577d707becb97405ede951', 1.8, 'LPASTAS', 'rimas rimauskas', '-'),
-(38, 'Kaunas, Vilniaus g. 9', '2022-12-11 18:12:12', 4, '689e5b2971577d707becb97405ede951', 1.8, 'LPASTAS', 'rimas rimauskas', '-');
+(38, 'Kaunas, Vilniaus g. 9', '2022-12-11 18:12:12', 4, '689e5b2971577d707becb97405ede951', 1.8, 'LPASTAS', 'rimas rimauskas', '-'),
+(39, 'Kaunas, Vilniaus g. 9', '2022-12-14 13:52:22', 1, '689e5b2971577d707becb97405ede951', 1.8, 'LPASTAS', 'rimas rimauskas', '-');
 
 -- --------------------------------------------------------
 
@@ -444,13 +457,13 @@ INSERT INTO `users` (`name`, `surname`, `username`, `password`, `userid`, `userl
 ('', '', 'darbuotojas', '16c354b68848cdbd8f54a226a0a55b21', '2721ae19d27ea5033cf23c6cd103ae10', 5, 'darbuotojas@demo.lt', '2022-11-14 23:39:13', '+37065432198', NULL, 'klientas'),
 ('', '', 'valdytojas', 'c2acd92812ef99acd3dcdbb746b9a434', '582e5be8aed3dcdb5d0cf740157e138a', 5, 'D@ltu.lt', '2022-11-21 11:24:11', '+37065432198', NULL, 'klientas'),
 ('Simonas', 'aasd', 'hmm', 'c2acd92812ef99acd3dcdbb746b9a434', '5f2f664dc9cbf6932cfd6246b584016c', 4, 'lol@gmail.com', '2022-11-13 01:41:49', '+37099999999', NULL, 'klientas'),
-('rimas', 'rimauskas', 'rimas', 'c2acd92812ef99acd3dcdbb746b9a434', '689e5b2971577d707becb97405ede951', 9, 'vytas.sa12@gmail.com', '2022-12-14 11:26:39', '0', '', ''),
+('rimas', 'rimauskas', 'rimas', 'c2acd92812ef99acd3dcdbb746b9a434', '689e5b2971577d707becb97405ede951', 9, 'vytas.sa12@gmail.com', '2022-12-14 12:27:28', '0', '', ''),
 ('kostas', 'kostauskas', 'kostas', '1c37511487d38c3ebc4c59650ce2d65a', '69986045e0925262d43addddaf76094f', 5, 'eeee@ll.lt', '2018-02-16 16:04:35', '0', '', ''),
 ('', '', 'klientas', '16c354b68848cdbd8f54a226a0a55b21', '703c4615ea4bdae8bb7eeeb07eacaabd', 4, 'klientas@demo.lt', '2022-11-14 01:01:48', '+37065432198', NULL, 'klientas'),
 ('jonas', 'jonauskas', 'jonas', '64067822105b320085d18e386f57d89a', '9c5ddd54107734f7d18335a5245c286b', 255, 'vytas.sa12@gmail.com', '2017-05-09 17:10:37', '0', '', ''),
 ('adminas', 'adminauskas', 'Administratorius', '16c354b68848cdbd8f54a226a0a55b21', 'a2fe399900de341c39c632244eaf8483', 9, 'demo@ktu.lt', '2022-11-14 12:19:52', '0', '', ''),
 ('Simonas', 'aasd', 'simonasasas', '1653754378ce92f8cded9854caf733cb', 'b134e7196c6b2a979e26a911c749bc8f', 4, 'siasd@gmail.com', '2022-11-12 21:09:47', '+370999999123', NULL, 'klientas'),
-('', '', 'klie', 'c2acd92812ef99acd3dcdbb746b9a434', 'bad596e6029596d4ef57c2a5f49a91ed', 4, 'dad@ktu.da', '2022-11-21 11:21:34', '+37065432198', NULL, 'klientas'),
+('', '', 'klie', 'c2acd92812ef99acd3dcdbb746b9a434', 'bad596e6029596d4ef57c2a5f49a91ed', 4, 'dad@ktu.da', '2022-12-14 12:16:52', '+37065432198', NULL, 'klientas'),
 ('PRANASLAVAS', 'ABUGELIS', 'PRANYS', '31c290ad43d6c7002b45df7e7a3286a1', 'd6dae04acf3129a632f712126486d867', 4, 'PRANAS@pranas.com', '2022-11-12 21:19:17', '+3765465465', NULL, 'klientas');
 
 -- --------------------------------------------------------
@@ -630,7 +643,7 @@ ALTER TABLE `uzsakymo_preke`
 -- AUTO_INCREMENT for table `apmokejimas`
 --
 ALTER TABLE `apmokejimas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `apmokejimo_budai`
@@ -642,7 +655,7 @@ ALTER TABLE `apmokejimo_budai`
 -- AUTO_INCREMENT for table `inventorius`
 --
 ALTER TABLE `inventorius`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `nuolaidos`
@@ -654,7 +667,7 @@ ALTER TABLE `nuolaidos`
 -- AUTO_INCREMENT for table `pirkimai`
 --
 ALTER TABLE `pirkimai`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `pratyboms`
@@ -666,13 +679,13 @@ ALTER TABLE `pratyboms`
 -- AUTO_INCREMENT for table `prekes`
 --
 ALTER TABLE `prekes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `pristatymai`
 --
 ALTER TABLE `pristatymai`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `saskaita`
